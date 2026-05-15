@@ -1,0 +1,213 @@
+.login-page {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #edf2ff;
+  margin-left: 160px;
+}
+
+.login-container {
+  display: flex;
+  width: 100%;
+  max-width: 1100px;
+  min-height: 200px;
+  border-radius: 40px;
+  overflow: hidden;
+  box-shadow: 0 30px 90px rgba(15, 23, 42, 0.12);
+  background: #ffffff;
+}
+
+.login-side-panel {
+  flex: 1.2;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(17, 26, 66, 0.92) 0%,
+      rgba(15, 23, 42, 0.88) 52%,
+      rgba(16, 28, 58, 0.94) 100%
+    ),
+    url("../../../../assets/hospital.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 56px 50px;
+}
+
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 375px;
+  height: 50px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+
+.login-side-panel h1 {
+  font-size: 33px;
+  line-height: 1.05;
+  margin: -9px 0 24px;
+  margin-left: 46px;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 1.4;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 18px 22px;
+  color: rgba(255, 255, 255, 0.78);
+
+  margin: 0;
+  text-align: justify;
+  max-width: 470px;
+}
+
+.side-footer {
+  margin-top: 36px;
+}
+
+.side-footer p {
+  margin: 0 0 16px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+
+.made-by {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.login-form-panel {
+  flex: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 52px 46px;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 420px;
+}
+
+.form-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.form-logo {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  object-fit: cover;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.16);
+}
+
+.form-card-header h2 {
+  margin: 0;
+  font-size: 34px;
+  color: #111827;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-form-field.full-width {
+  display: block;
+  margin-bottom: 18px;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.forgot-link {
+  color: #4338ca;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 50px;
+  margin-bottom: 18px;
+  font-weight: 700;
+}
+
+.contact-btn {
+  width: 100%;
+  height: 46px;
+  color: #111827;
+  border-color: rgba(17, 24, 39, 0.12);
+}
+
+.version-text {
+  text-align: center;
+  color: #6b7280;
+  font-size: 13px;
+  margin-top: 24px;
+}
+
+@media (max-width: 992px) {
+  .login-container {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .login-side-panel,
+  .login-form-panel {
+    width: 100%;
+    flex: unset;
+    padding: 36px 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .login-page {
+    padding: 16px;
+  }
+
+  .login-side-panel {
+    border-radius: 28px;
+    padding: 28px 24px;
+  }
+
+  .login-form-panel {
+    padding: 28px 20px;
+  }
+
+  .login-container {
+    border-radius: 28px;
+  }
+
+  .form-card-header {
+    gap: 12px;
+  }
+
+  .logo-badge {
+    width: 60px;
+    height: 60px;
+  }
+
+  .form-card-header h2 {
+    font-size: 28px;
+  }
+}

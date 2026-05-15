@@ -1,0 +1,29 @@
+<nav class="sidebar" [class.closed]="!isOpen">
+  <div class="sidebar-header">
+    <div>
+      <p class="sidebar-subtitle">Admin panel</p>
+    </div>
+    <button mat-icon-button class="close-btn" (click)="closeSidebar()">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+  </div>
+
+  <ul class="sidebar-list">
+    <li
+      routerLink="/analytics"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <mat-icon>analytics</mat-icon>
+      <span>Analytics Dashboard</span>
+    </li>
+    <li routerLink="/patient-dashboard" routerLinkActive="active">
+      <mat-icon>group</mat-icon>
+      <span>Patient Dashboard</span>
+    </li>
+    <li routerLink="/appointment-booking" routerLinkActive="active">
+      <mat-icon>event_available</mat-icon>
+      <span>Appointment Booking</span>
+    </li>
+  </ul>
+</nav>

@@ -1,0 +1,23 @@
+<mat-toolbar class="navbar" *ngIf="!isLoginRoute()">
+  <!-- Left: App Name -->
+  <span class="logo" routerLink="/dashboard">🏥 HPMS</span>
+
+  <span class="spacer"></span>
+  <!-- User Info -->
+  <div class="user-section" *ngIf="currentUser">
+    <button mat-icon-button [matMenuTriggerFor]="menu" class="email-button">
+      <span class="email">{{ currentUser.email }}</span>
+      <mat-icon>expand_more</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item disabled>
+        {{ currentUser.email }}
+      </button>
+
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
+    </mat-menu>
+  </div>
+</mat-toolbar>

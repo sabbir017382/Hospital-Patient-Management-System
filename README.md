@@ -25,3 +25,9 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## agular material seat up (version 15)
+
+## toster setup (version 15.2.2)
+
+## chart.js( version 4.2.1) and ng2-chart ( version 4.1.1)seatup

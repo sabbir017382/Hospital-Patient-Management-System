@@ -1,0 +1,93 @@
+<div class="login-page">
+  <div class="login-container">
+    <div class="login-side-panel">
+      <div>
+        <div class="brand-logo">Hospital Patient Management System</div>
+
+        <h1>Welcome to HPMS</h1>
+
+        <p class="description">
+          HPMS simplifies patient management at Pridesys Hospital through
+          intuitive dashboards and smart modules. It enables efficient handling
+          of records, appointments, and operations while aiming for a fully
+          paperless and efficient system.
+        </p>
+      </div>
+
+      <div class="side-footer">
+        <p>Trusted by 15,000+ patients</p>
+        <div class="made-by">— Made with ❤️ by Pridesys</div>
+      </div>
+    </div>
+
+    <div class="login-form-panel">
+      <div class="form-card">
+        <div class="form-card-header">
+          <img
+            class="form-logo"
+            src="assets/hospitalLogo.png"
+            alt="Hospital logo"
+          />
+          <h2>Sign in</h2>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email*</mat-label>
+            <input matInput formControlName="email" />
+
+            <mat-error *ngIf="f.email.hasError('required')">
+              Email is required
+            </mat-error>
+            <mat-error *ngIf="f.email.hasError('email')">
+              Invalid email
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Password*</mat-label>
+            <input
+              matInput
+              [type]="hidePassword ? 'password' : 'text'"
+              formControlName="password"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="hidePassword = !hidePassword"
+            >
+              <mat-icon>
+                {{ hidePassword ? "visibility_off" : "visibility" }}
+              </mat-icon>
+            </button>
+
+            <mat-error *ngIf="f.password.hasError('required')">
+              Password is required
+            </mat-error>
+            <mat-error *ngIf="f.password.hasError('minlength')">
+              Minimum 6 characters required
+            </mat-error>
+          </mat-form-field>
+
+          <div class="form-row">
+            <mat-checkbox formControlName="remember">Remember me</mat-checkbox>
+            <a href="" class="forgot-link">Forgot password?</a>
+          </div>
+
+          <button
+            mat-flat-button
+            color="primary"
+            class="submit-btn"
+            type="submit"
+            [disabled]="loginForm.invalid || loading"
+          >
+            <span *ngIf="!loading">Sign in</span>
+            <mat-spinner *ngIf="loading" diameter="30"></mat-spinner>
+          </button>
+        </form>
+        <div class="version-text">Web App Version: 2.4.100</div>
+      </div>
+    </div>
+  </div>
+</div>
