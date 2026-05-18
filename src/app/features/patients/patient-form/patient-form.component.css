@@ -1,0 +1,44 @@
+.form-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 24px;
+  max-width: 1000px;
+  margin-left: -180px;
+  border: 10px solid #ccc;
+}
+
+.form-field {
+  width: 100%;
+}
+
+.radio-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.radio-label {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: 500;
+}
+
+.radio-group {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.button-group {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-center;
+  margin-top: 16px;
+}
+
+mat-form-field {
+  display: block;
+}

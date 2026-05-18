@@ -1,1 +1,110 @@
-<p>patient-form works!</p>
+<div class="form-container" [formGroup]="form" *ngIf="form">
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Full Name</mat-label>
+    <input matInput formControlName="fullName" />
+    <mat-error
+      *ngIf="form.get('fullName')?.hasError('required')"
+      minimumLength="2"
+    >
+      Required
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Date of Birth</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="dob" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-error
+      *ngIf="
+        form.get('dob')?.hasError('futureDate') ||
+        form.get('dob')?.hasError('required')
+      "
+    >
+      Date must be in the past
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Blood Group</mat-label>
+    <mat-select formControlName="bloodGroup">
+      <mat-option *ngFor="let bg of bloodGroupOptions" [value]="bg">
+        {{ bg }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="radio-field">
+    <label class="radio-label">Gender</label>
+    <mat-radio-group formControlName="gender" class="radio-group">
+      <mat-radio-button *ngFor="let g of genderOptions" [value]="g">
+        {{ g }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Phone Number</mat-label>
+    <input matInput formControlName="phone" />
+    <mat-error *ngIf="form.get('phone')?.hasError('pattern')">
+      Invalid phone number
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" />
+    <mat-error *ngIf="form.get('email')?.hasError('email')">
+      Invalid email address
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Address</mat-label>
+    <textarea matInput formControlName="address"></textarea>
+    <mat-error *ngIf="form.get('address')?.hasError('required')">
+      Required
+    </mat-error>
+  </mat-form-field>
+
+  <div class="radio-field">
+    <label class="radio-label">Insurance Type</label>
+    <mat-radio-group formControlName="insuranceType" class="radio-group">
+      <mat-radio-button *ngFor="let it of insuranceTypeOptions" [value]="it">
+        {{ it }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Emergency Contact</mat-label>
+    <textarea matInput formControlName="emergencyContact"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Medical History</mat-label>
+    <mat-chip-grid #chipList>
+      <mat-chip-row *ngFor="let tag of medicalTags" (removed)="removeTag(tag)">
+        {{ tag }}
+        <button matChipRemove>×</button>
+      </mat-chip-row>
+      <input
+        matInput
+        placeholder="Add tag"
+        [matChipInputFor]="chipList"
+        (matChipInputTokenEnd)="addTag($event)"
+      />
+    </mat-chip-grid>
+  </mat-form-field>
+
+  <div class="button-group">
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="form.invalid"
+      (click)="onSubmit()"
+    >
+      Submit
+    </button>
+    <button mat-button (click)="onCancel()">Cancel</button>
+  </div>
+</div>

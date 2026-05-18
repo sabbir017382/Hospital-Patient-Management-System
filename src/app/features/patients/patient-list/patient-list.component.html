@@ -1,1 +1,212 @@
-<p>patient-list works!</p>
+<div>
+  <mat-form-field appearance="outline">
+    <mat-label>Search Patient</mat-label>
+    <input
+      matInput
+      (input)="onSearch($event)"
+      placeholder="Name, phone or blood group"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Gender</mat-label>
+    <mat-select (selectionChange)="genderFilter = $event.value; applyFilters()">
+      <mat-option value="">All</mat-option>
+      <mat-option value="Male">Male</mat-option>
+      <mat-option value="Female">Female</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Insurance</mat-label>
+    <mat-select
+      (selectionChange)="insuranceFilter = $event.value; applyFilters()"
+    >
+      <mat-option value="">All</mat-option>
+      <mat-option value="Government">Government</mat-option>
+      <mat-option value="Private">Private</mat-option>
+      <mat-option value="Corporate">Corporate</mat-option>
+      <mat-option value="None">None</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Blood Group</mat-label>
+    <mat-select
+      (selectionChange)="bloodGroupFilter = $event.value; applyFilters()"
+    >
+      <mat-option value="">All</mat-option>
+      <mat-option value="A+">A+</mat-option>
+      <mat-option value="A-">A-</mat-option>
+      <mat-option value="B+">B+</mat-option>
+      <mat-option value="B-">B-</mat-option>
+      <mat-option value="O+">O+</mat-option>
+      <mat-option value="O-">O-</mat-option>
+      <mat-option value="AB+">AB+</mat-option>
+      <mat-option value="AB-">AB-</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="patient-list-container">
+  <h2>Patient List</h2>
+  <button
+    *ngIf="!selection.isEmpty()"
+    mat-raised-button
+    color="warn"
+    (click)="confirmDelete()"
+  >
+    Delete Selected
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="exportCSV()"
+    style="margin-left: 8px"
+  >
+    {{ selection.isEmpty() ? "Export Visible CSV" : "Export Selected CSV" }}
+  </button>
+  <!-- //// for total patient count  -->
+  <button mat-raised-button color="primary" style="margin-left: 8px">
+    Total Patient: {{ (patients$ | async)?.length || 0 }}
+  </button>
+  <!-- //////// -->
+
+  <ng-container *ngIf="patients$ | async as patients">
+    <div *ngIf="patients.length; else emptyState">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        class="mat-elevation-z8"
+      >
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox
+              (change)="masterToggle()"
+              [checked]="isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()"
+            >
+            </mat-checkbox>
+          </th>
+
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="selection.toggle(row)"
+              [checked]="selection.isSelected(row)"
+            >
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let patient">{{ patient.id }}</td>
+        </ng-container>
+        <ng-container matColumnDef="fullName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+          <td mat-cell *matCellDef="let patient">{{ patient.fullName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="dob">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>DOB</th>
+          <td mat-cell *matCellDef="let patient">
+            {{ patient.dob | date: "mediumDate" }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="bloodGroup">
+          <th mat-header-cell *matHeaderCellDef>Blood Group</th>
+          <td mat-cell *matCellDef="let patient">{{ patient.bloodGroup }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="gender">
+          <th mat-header-cell *matHeaderCellDef>Gender</th>
+          <td mat-cell *matCellDef="let patient">{{ patient.gender }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="insuranceType">
+          <th mat-header-cell *matHeaderCellDef>Insurance</th>
+          <td mat-cell *matCellDef="let patient">
+            {{ patient.insuranceType }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let patient">
+            <button
+              mat-button
+              color="primary"
+              (click)="viewPatient(patient.id)"
+            >
+              View
+            </button>
+
+            <button mat-button color="accent" (click)="editPatient(patient.id)">
+              Edit
+            </button>
+
+            <!-- <button
+              mat-button
+              color="warn"
+              (click)="bookAppointment(patient.id)" 
+            >
+              Book Appointment
+            </button> -->
+
+            <button mat-button color="warn" (click)="deletePatient(patient.id)">
+              Delete
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+
+    <ng-template #emptyState>
+      <p>No patients added yet. Use the patient form to add new patients.</p>
+    </ng-template>
+  </ng-container>
+</div>
+
+<!--doctor table -->
+<div class="patient-list-container">
+  <h2>Doctor List</h2>
+
+  <ng-container *ngIf="doctors$ | async as doctors">
+    <div *ngIf="doctors.length; else emptyState">
+      <table mat-table [dataSource]="doctors" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let doctor">{{ doctor.id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let doctor">{{ doctor.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="specialty">
+          <th mat-header-cell *matHeaderCellDef>Specialty</th>
+          <td mat-cell *matCellDef="let doctor">{{ doctor.specialty }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="availability">
+          <th mat-header-cell *matHeaderCellDef>Availability</th>
+          <td mat-cell *matCellDef="let doctor">{{ doctor.availability }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnForDoctors"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumnForDoctors"
+        ></tr>
+      </table>
+    </div>
+
+    <ng-template #emptyState>
+      <p>No doctors added yet.</p>
+    </ng-template>
+  </ng-container>
+</div>

@@ -1,13 +1,36 @@
+export const BLOOD_GROUPS = [
+  'A+',
+  'A-',
+  'B+',
+  'B-',
+  'O+',
+  'O-',
+  'AB+',
+  'AB-',
+] as const;
+export type BloodGroup = (typeof BLOOD_GROUPS)[number];
+
+export const INSURANCE_TYPES = [
+  'None',
+  'Government',
+  'Private',
+  'Corporate',
+] as const;
+export type InsuranceType = (typeof INSURANCE_TYPES)[number];
+
+export const GENDER_TYPES = ['Male', 'Female', 'Other'] as const;
+export type GenderType = (typeof GENDER_TYPES)[number];
+
 export interface Patient {
   id: string;
 
-  name: string;
+  fullName: string;
 
   dob: Date;
 
-  bloodGroup: 'A+' | 'A-' | 'B+' | 'B-' | 'O+' | 'O-' | 'AB+' | 'AB-';
+  bloodGroup: BloodGroup;
 
-  gender: 'Male' | 'Female' | 'Other';
+  gender: GenderType;
 
   phone: string;
 
@@ -15,7 +38,7 @@ export interface Patient {
 
   address: string;
 
-  insuranceType: 'None' | 'Government' | 'Private' | 'Corporate';
+  insuranceType: InsuranceType;
 
   registeredAt: Date;
 

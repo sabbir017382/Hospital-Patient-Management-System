@@ -1,0 +1,21 @@
+.patient-list-container {
+  flex: 1;
+  padding: 11px;
+  transition: margin-left 0.25s ease;
+  margin-left: -180px;
+}
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.badge {
+  background: #1976d2;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  min-width: 35px;
+  text-align: center;
+}
