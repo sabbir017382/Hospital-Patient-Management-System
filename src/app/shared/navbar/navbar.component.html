@@ -2,6 +2,19 @@
   <!-- Left: App Name -->
   <span class="logo" routerLink="/dashboard">🏥 HPMS</span>
 
+  <div class="navbar-badge">
+    <div class="today-badge-label">Today's Scheduled Appointments</div>
+    <button
+      mat-icon-button
+      class="today-badge-button"
+      matBadge="{{ todayAppointmentsCount }}"
+      matBadgePosition="above after"
+      [matBadgeOverlap]="false"
+      aria-label="Today's scheduled appointments"
+    >
+      <mat-icon>event_available</mat-icon>
+    </button>
+  </div>
   <span class="spacer"></span>
   <!-- User Info -->
   <div class="user-section" *ngIf="currentUser">

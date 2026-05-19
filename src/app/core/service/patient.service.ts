@@ -42,6 +42,111 @@ export class PatientService {
     return this.appointmentsSubject.getValue();
   }
 
+  getAppointments() {
+    return this.appointmentsSubject.asObservable();
+  }
+
+  getAppointmentsByPatient(patientId: string): Appointment[] {
+    return this.getAppointmentsSnapshot().filter(
+      (appt) => appt.patientId === patientId,
+    );
+  }
+
+  getAppointmentsByDoctor(doctorId: string): Appointment[] {
+    return this.getAppointmentsSnapshot().filter(
+      (appt) => appt.doctorId === doctorId,
+    );
+  }
+
+  addAppointment(
+    appointment: Omit<Appointment, 'id' | 'createdAt'>,
+  ): Appointment {
+    const current = this.appointmentsSubject.getValue();
+    const appointmentDate =
+      appointment.appointmentDate instanceof Date
+        ? appointment.appointmentDate
+        : new Date(appointment.appointmentDate);
+
+    const toSave: Appointment = {
+      ...appointment,
+      appointmentDate,
+      status: appointment.status || 'Scheduled',
+      id: this.generateAppointmentId(),
+      createdAt: new Date(),
+      followUpDate: appointment.followUpDate ?? null,
+    };
+
+    this.appointmentsSubject.next([...current, toSave]);
+    return toSave;
+  }
+
+  updateAppointment(
+    id: string,
+    updates: Partial<Appointment>,
+  ): Appointment | null {
+    const current = this.appointmentsSubject.getValue();
+    const existing = current.find((appt) => appt.id === id);
+    if (!existing) {
+      return null;
+    }
+
+    const updated: Appointment = {
+      ...existing,
+      ...updates,
+      appointmentDate: updates.appointmentDate
+        ? updates.appointmentDate instanceof Date
+          ? updates.appointmentDate
+          : new Date(updates.appointmentDate)
+        : existing.appointmentDate,
+      followUpDate:
+        updates.followUpDate !== undefined
+          ? updates.followUpDate
+          : existing.followUpDate,
+    };
+
+    this.appointmentsSubject.next(
+      current.map((appt) => (appt.id === id ? updated : appt)),
+    );
+    return updated;
+  }
+
+  cancelAppointment(id: string): void {
+    this.updateAppointment(id, { status: 'Cancelled' });
+  }
+
+  getUpcomingAppointments(): Appointment[] {
+    const now = new Date();
+    return this.getAppointmentsSnapshot().filter(
+      (appt) =>
+        appt.status === 'Scheduled' && new Date(appt.appointmentDate) > now,
+    );
+  }
+
+  getAppointmentStats() {
+    const stats = {
+      total: 0,
+      completed: 0,
+      cancelled: 0,
+      scheduled: 0,
+      noShow: 0,
+    };
+
+    this.getAppointmentsSnapshot().forEach((appt) => {
+      stats.total += 1;
+      if (appt.status === 'Completed') {
+        stats.completed += 1;
+      } else if (appt.status === 'Cancelled') {
+        stats.cancelled += 1;
+      } else if (appt.status === 'Scheduled') {
+        stats.scheduled += 1;
+      } else if (appt.status === 'No-show') {
+        stats.noShow += 1;
+      }
+    });
+
+    return stats;
+  }
+
   resetState() {
     this.appointmentsSubject.next([]);
   }
@@ -182,6 +287,22 @@ export class PatientService {
     const nextNumber = numericIds.length ? Math.max(...numericIds) + 1 : 1;
     return `P${nextNumber.toString().padStart(3, '0')}`;
   }
+
+  private generateAppointmentId(): string {
+    const ids = this.appointmentsSubject.value
+      .map((appt) => appt.id)
+      .filter((id): id is string => typeof id === 'string');
+
+    const numericIds = ids
+      .map((id) => {
+        const match = /^A(\d+)$/.exec(id);
+        return match ? Number(match[1]) : null;
+      })
+      .filter((num): num is number => num !== null);
+
+    const nextNumber = numericIds.length ? Math.max(...numericIds) + 1 : 1;
+    return `A${nextNumber.toString().padStart(3, '0')}`;
+  }
   //show all patient
   getPatients() {
     return this.patients$.asObservable();
@@ -204,12 +325,18 @@ export class PatientService {
     return toSave;
   }
 
-  //get patient by id
+  //get patient by id as observable
   getPatientById(id: string) {
     return this.patients$
       .asObservable()
       .pipe(map((patients) => patients.find((p) => p.id === id)));
   }
+
+  //get patient by id synchronously
+  findPatientById(id: string): Patient | undefined {
+    return this.patients$.value.find((patient) => patient.id === id);
+  }
+
   //update patient
   updatePatient(updated: any) {
     const normalized = {
@@ -225,9 +352,55 @@ export class PatientService {
     this.patients$.next(list);
   }
 
+  updatePatientById(id: string, updates: Partial<Patient>): Patient | null {
+    const current = this.patients$.value;
+    const existing = current.find((patient) => patient.id === id);
+    if (!existing) {
+      return null;
+    }
+    const normalizedMedicalHistory = Array.isArray(updates.medicalHistory)
+      ? updates.medicalHistory.filter(Boolean)
+      : existing.medicalHistory;
+
+    const updatedPatient: Patient = {
+      ...existing,
+      ...updates,
+      medicalHistory: normalizedMedicalHistory,
+      dob: updates.dob ? new Date(updates.dob) : existing.dob,
+    };
+
+    this.patients$.next(
+      current.map((patient) => (patient.id === id ? updatedPatient : patient)),
+    );
+    return updatedPatient;
+  }
+
   deletePatients(ids: string[]) {
     const updated = this.patients$.value.filter((p) => !ids.includes(p.id));
     this.patients$.next(updated);
+  }
+
+  deletePatient(id: string): boolean {
+    const patientExists = this.patients$.value.some((p) => p.id === id);
+    if (!patientExists) {
+      return false;
+    }
+    this.deletePatients([id]);
+    return true;
+  }
+
+  searchPatients(query: string): Patient[] {
+    const normalized = query.trim().toLowerCase();
+    if (!normalized) {
+      return this.patients$.value;
+    }
+    return this.patients$.value.filter((patient) => {
+      return (
+        patient.fullName.toLowerCase().includes(normalized) ||
+        patient.phone.toLowerCase().includes(normalized) ||
+        patient.bloodGroup.toLowerCase().includes(normalized)
+      );
+    });
   }
   private doctors$ = new BehaviorSubject<Doctor[]>([
     {
@@ -240,7 +413,7 @@ export class PatientService {
       id: 'D002',
       name: 'Dr. Nusrat Jahan',
       specialty: 'Neurology',
-      availability: 'Tue, Thu — 10AM–3PM',
+      availability: 'Tue, Thu — 10AM–5PM',
     },
     {
       id: 'D003',

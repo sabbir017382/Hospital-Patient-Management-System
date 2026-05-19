@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
+  CanActivateChild,
   RouterStateSnapshot,
   UrlTree,
   Router,
@@ -12,7 +13,7 @@ import { PatientService } from '../service/patient.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuardGuard implements CanActivate {
+export class AuthGuardGuard implements CanActivate, CanActivateChild {
   constructor(
     private patientService: PatientService,
     private router: Router,
@@ -31,7 +32,7 @@ export class AuthGuardGuard implements CanActivate {
 
     if (requiresGuest) {
       if (currentUser) {
-        return this.router.createUrlTree(['/analytics']);
+        return this.router.createUrlTree(['/dashboard']);
       }
       return true;
     }
@@ -43,5 +44,16 @@ export class AuthGuardGuard implements CanActivate {
     return this.router.createUrlTree(['/login'], {
       queryParams: { returnUrl: state.url },
     });
+  }
+
+  canActivateChild(
+    childRoute: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot,
+  ):
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
+    return this.canActivate(childRoute, state);
   }
 }

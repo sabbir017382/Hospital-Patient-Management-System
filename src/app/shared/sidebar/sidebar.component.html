@@ -10,28 +10,24 @@
 
   <ul class="sidebar-list">
     <li
-      routerLink="/analytics"
+      routerLink="/dashboard"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }"
     >
-      <mat-icon>analytics</mat-icon>
-      <span>Analytics Dashboard</span>
+      <mat-icon>dashboard</mat-icon>
+      <span>Dashboard</span>
     </li>
-    <li routerLink="/patient-dashboard" routerLinkActive="active">
+    <li routerLink="/patients" routerLinkActive="active">
       <mat-icon>group</mat-icon>
       <span>Patient Dashboard</span>
     </li>
-    <li routerLink="/appointment-booking" routerLinkActive="active">
-      <mat-icon>event_available</mat-icon>
-      <span>Appointment Booking</span>
-    </li>
-    <li routerLink="/patient-form" routerLinkActive="active">
+    <li routerLink="/patients/new" routerLinkActive="active">
       <mat-icon>person_add</mat-icon>
       <span>Patient Form</span>
     </li>
-    <li routerLink="/patient-list" routerLinkActive="active">
-      <mat-icon>list</mat-icon>
-      <span>Patient List</span>
+    <li routerLink="/analytics" routerLinkActive="active">
+      <mat-icon>analytics</mat-icon>
+      <span>Analytics Dashboard</span>
     </li>
   </ul>
 </nav>

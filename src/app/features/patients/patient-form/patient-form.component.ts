@@ -126,10 +126,10 @@ export class PatientFormComponent implements OnInit {
       this.snackBar.open('Patient saved!', 'OK', { duration: 2000 });
     }
 
-    this.router.navigate(['/patient-list']);
+    this.router.navigate(['/patients']);
   }
 
   onCancel() {
-    this.router.navigate(['/patient-list']);
+    this.router.navigate(['/patients']);
   }
 }

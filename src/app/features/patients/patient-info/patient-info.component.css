@@ -1,0 +1,233 @@
+.patient-info-card {
+  display: flex;
+  justify-content: center;
+  animation: slideUp 0.4s ease-out;
+}
+
+/* Main Card */
+.premium-card {
+  width: 100%;
+  max-width: 950px;
+  border-radius: 16px;
+  background: white;
+  border: 1px solid #e3e8f3;
+  box-shadow: 0 10px 40px rgba(63, 81, 181, 0.1);
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Card Header Section */
+.card-header-section {
+  background: linear-gradient(135deg, #000108 0%, #082e4c 100%);
+  color: white;
+  padding: 30px;
+  border-bottom: none;
+}
+
+.patient-header-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.patient-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.patient-avatar mat-icon {
+  font-size: 44px;
+  width: 44px;
+  height: 44px;
+  color: white;
+}
+
+.patient-header-text {
+  flex: 1;
+}
+
+.patient-name {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: white;
+}
+
+.patient-id {
+  margin: 6px 0 0 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.5px;
+}
+
+/* Title */
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  padding: 24px 30px 0;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+/* Grid */
+.card-body {
+  padding: 20px 30px 30px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px 40px;
+}
+
+/* Info Block */
+.info {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  border-radius: 8px;
+  background: #f8f9ff;
+  transition: all 0.3s ease;
+}
+
+.info:hover {
+  background: #f0f3ff;
+  transform: translateY(-2px);
+}
+
+.info label {
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  color: #6b7a99;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.info span {
+  font-size: 15px;
+  color: #1a1a1a;
+  font-weight: 500;
+}
+
+/* Full width */
+.full {
+  grid-column: span 2;
+}
+
+/* Chips (modern style) */
+.chip {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #3f51b5 0%, #2196f3 100%);
+  color: #fff;
+  font-size: 12px;
+  width: fit-content;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(63, 81, 181, 0.3);
+}
+
+.chip.outline {
+  background: white;
+  color: #3f51b5;
+  border: 2px solid #3f51b5;
+  box-shadow: none;
+}
+
+/* Medical history */
+.history {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.history span {
+  font-size: 12px;
+  border: 1px solid #3f51b5;
+  padding: 6px 12px;
+  border-radius: 20px;
+  color: #3f51b5;
+  background: #f0f3ff;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.history span:hover {
+  background: #3f51b5;
+  color: white;
+}
+
+/* Muted text */
+.muted {
+  color: #999;
+  font-style: italic;
+}
+
+/* Empty state */
+.empty {
+  text-align: center;
+  color: #888;
+  margin-top: 20px;
+}
+
+/* Animations */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .premium-card {
+    max-width: 100%;
+  }
+
+  .card-header-section {
+    padding: 20px;
+  }
+
+  .patient-avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  .patient-avatar mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .patient-name {
+    font-size: 22px;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .full {
+    grid-column: span 1;
+  }
+
+  .card-body {
+    padding: 15px 20px 20px;
+  }
+}

@@ -1,1 +1,110 @@
-<p>appointment-modal works!</p>
+<div class="appointment-form-shell" [formGroup]="form">
+  <h2>{{ isEditMode ? "Edit Appointment" : "Book Appointment" }}</h2>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Patient</mat-label>
+    <input
+      matInput
+      formControlName="patientId"
+      [matAutocomplete]="patientAuto"
+      [disabled]="!!patient"
+      placeholder="Start typing patient name or ID"
+    />
+    <mat-autocomplete
+      #patientAuto="matAutocomplete"
+      [displayWith]="displayPatient.bind(this)"
+    >
+      <mat-option *ngFor="let option of filteredPatients" [value]="option.id">
+        {{ option.fullName }} ({{ option.id }})
+      </mat-option>
+    </mat-autocomplete>
+    <mat-error *ngIf="form.get('patientId')?.hasError('required')">
+      Patient is required.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Doctor</mat-label>
+    <input
+      matInput
+      formControlName="doctorId"
+      [matAutocomplete]="auto"
+      placeholder="Search by doctor or specialty"
+    />
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      [displayWith]="displayDoctor.bind(this)"
+    >
+      <mat-option *ngFor="let doc of filteredDoctors" [value]="doc.id">
+        {{ doc.name }} — {{ doc.specialty }}
+      </mat-option>
+    </mat-autocomplete>
+    <mat-error *ngIf="form.get('doctorId')?.hasError('required')">
+      Doctor is required.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Appointment Date</mat-label>
+    <input
+      matInput
+      [matDatepicker]="picker"
+      formControlName="appointmentDate"
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-error *ngIf="form.get('appointmentDate')?.hasError('required')">
+      Appointment date is required.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Appointment Time</mat-label>
+    <mat-select formControlName="appointmentTime">
+      <mat-option *ngFor="let time of timeSlots" [value]="time">
+        {{ time }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('appointmentTime')?.hasError('required')">
+      Appointment time is required.
+    </mat-error>
+    <mat-error
+      *ngIf="
+        form.hasError('pastDateTime') &&
+        (form.get('appointmentDate')?.touched ||
+          form.get('appointmentTime')?.touched)
+      "
+    >
+      Appointment date and time must be today or in the future.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Notes</mat-label>
+    <textarea matInput formControlName="notes" rows="4"></textarea>
+  </mat-form-field>
+
+  <div *ngIf="warningMessage" class="warning-box">
+    {{ warningMessage }}
+  </div>
+
+  <div class="dialog-actions">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button
+      mat-button
+      *ngIf="isEditMode"
+      color="warn"
+      (click)="cancelAppointment()"
+    >
+      Cancel Appointment
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="save()"
+      [disabled]="!form.valid || !!warningMessage"
+    >
+      {{ isEditMode ? "Save Changes" : "Confirm" }}
+    </button>
+  </div>
+</div>

@@ -3,11 +3,15 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { PatientService } from 'src/app/core/service/patient.service';
 import { Patient } from 'src/app/core/models/patient';
+import { Appointment } from 'src/app/core/models/appoinment';
 import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ViewChild, AfterViewInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AppointmentModalComponent } from 'src/app/features/Appointment/appointment-modal/appointment-modal.component';
 
 @Component({
   selector: 'app-patient-list',
@@ -39,7 +43,12 @@ export class PatientListComponent implements OnInit, AfterViewInit {
     private patientService: PatientService,
     private router: Router,
     private dialog: MatDialog,
+    private snackBar: MatSnackBar,
   ) {}
+
+  getAppointmentsForPatient(patientId: string): Appointment[] {
+    return this.patientService.getAppointmentsByPatient(patientId);
+  }
 
   ngOnInit() {
     this.patients$ = this.patientService.getPatients();
@@ -99,9 +108,11 @@ export class PatientListComponent implements OnInit, AfterViewInit {
   ///Sort//
 
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   dataSource = new MatTableDataSource<Patient>([]);
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
   ///////mat sort close///////
 
@@ -224,14 +235,28 @@ export class PatientListComponent implements OnInit, AfterViewInit {
   }
   ///////Multi select and delete close///////
 
-  viewPatient(id: string) {
-    this.patientService.getPatientById(id).subscribe((patient) => {
-      console.log('Patient details:', patient);
+  //open appointment modal
+  openAppointmentModal(patient?: any, appointment?: any) {
+    const dialogRef = this.dialog.open(AppointmentModalComponent, {
+      width: '520px',
+      data: { patient, appointment }, // edit mode support
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.snackBar.open('Appointment saved', 'OK', {
+          duration: 2000,
+        });
+      }
     });
   }
 
+  viewPatient(id: string) {
+    this.router.navigate(['/patients', id]);
+  }
+
   editPatient(id: string) {
-    this.router.navigate(['/patient-form', id]);
+    this.router.navigate(['/patients', id, 'edit']);
   }
 
   deletePatient(id: string) {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SidebarService } from 'src/app/core/service/sidebar.service';
+import { SidebarService } from '../../core/service/sidebar.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,7 +10,7 @@ export class SidebarComponent {
   isOpen = true;
 
   constructor(public sidebarService: SidebarService) {
-    this.sidebarService.isOpen$.subscribe((value) => {
+    this.sidebarService.isOpen$.subscribe((value: boolean) => {
       this.isOpen = value;
     });
   }

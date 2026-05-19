@@ -1,0 +1,87 @@
+.analytics-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 16px;
+}
+
+.summary-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.summary-card {
+  padding: 16px;
+  min-height: 120px;
+}
+
+.summary-label {
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+}
+
+.summary-value {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.charts-row {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 16px;
+}
+
+.chart-card,
+.table-card {
+  padding: 16px;
+}
+
+.section-header {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.chart-wrapper {
+  width: 100%;
+  min-height: 320px;
+}
+
+.small-chart {
+  min-height: 280px;
+}
+
+.status-legend {
+  margin-top: 16px;
+  display: grid;
+  gap: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legend-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+}
+
+.legend-label {
+  font-size: 0.95rem;
+}
+
+table {
+  width: 100%;
+}
+
+@media (max-width: 960px) {
+  .summary-row,
+  .charts-row {
+    grid-template-columns: 1fr;
+  }
+}

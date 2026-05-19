@@ -30,7 +30,7 @@ import { PatientService } from 'src/app/core/service/patient.service';
 export class LoginComponent {
   hidePassword = true;
   loading = false;
-  returnUrl = '/analytics';
+  returnUrl = '/dashboard';
 
   constructor(
     private fb: FormBuilder,

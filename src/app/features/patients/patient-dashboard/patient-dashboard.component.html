@@ -1,1 +1,50 @@
-<p>patient-dashboard works!</p>
+<div class="patient-dashboard-shell" *ngIf="!isLoading; else loading">
+  <ng-container *ngIf="patient; else notFound">
+    <div class="dashboard-container">
+      <div class="dashboard-tabs-section">
+        <button
+          class="tab-button"
+          [class.active]="selectedTab === 'info'"
+          (click)="selectedTab = 'info'"
+        >
+          <mat-icon>person</mat-icon>
+          <span>Patient Info</span>
+        </button>
+        <button
+          class="tab-button"
+          [class.active]="selectedTab === 'appointments'"
+          (click)="selectedTab = 'appointments'"
+        >
+          <mat-icon>calendar_today</mat-icon>
+          <span>Appointment History</span>
+          <span class="badge-count" *ngIf="appointmentCount > 0">{{
+            appointmentCount
+          }}</span>
+        </button>
+      </div>
+
+      <div class="dashboard-section">
+        <section *ngIf="selectedTab === 'info'">
+          <app-patient-info [patient]="patient"></app-patient-info>
+        </section>
+
+        <section *ngIf="selectedTab === 'appointments'">
+          <app-appointment-history
+            [patientId]="patient.id"
+            (appointmentBooked)="onAppointmentBooked()"
+          ></app-appointment-history>
+        </section>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #loading>
+  <div class="loading-placeholder">Loading patient details…</div>
+</ng-template>
+
+<ng-template #notFound>
+  <div class="not-found-message">
+    Patient not found. Please return to the patient list.
+  </div>
+</ng-template>

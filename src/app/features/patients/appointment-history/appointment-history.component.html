@@ -1,1 +1,36 @@
-<p>appointment-history works!</p>
+<div class="appointment-history" *ngIf="patientId; else noPatient">
+  <div class="history-header">
+    <h3>Appointment History</h3>
+    <span class="badge">{{ appointments.length }}</span>
+  </div>
+
+  <ng-container *ngIf="appointments.length; else noAppointments">
+    <div class="appointment-list">
+      <div class="appointment-item" *ngFor="let appointment of appointments">
+        <div>
+          <strong>{{ appointment.appointmentDate | date: "medium" }}</strong>
+          <p>Status: {{ appointment.status }}</p>
+          <p>Doctor: {{ appointment.doctorId }}</p>
+          <p>Notes: {{ appointment.notes || "None" }}</p>
+        </div>
+        <div class="appointment-actions">
+          <button
+            mat-button
+            color="accent"
+            (click)="editAppointment(appointment)"
+          >
+            Edit
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #noAppointments>
+    <p>No appointments have been booked yet for this patient.</p>
+  </ng-template>
+</div>
+
+<ng-template #noPatient>
+  <p>No patient selected.</p>
+</ng-template>

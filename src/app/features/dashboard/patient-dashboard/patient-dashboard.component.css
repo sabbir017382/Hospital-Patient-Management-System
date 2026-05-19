@@ -21,3 +21,10 @@
 .patient-dashboard-shell h2 {
   margin-top: 0;
 }
+
+.appointment-fab {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1100;
+}

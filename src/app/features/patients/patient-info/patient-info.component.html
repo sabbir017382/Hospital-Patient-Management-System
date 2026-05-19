@@ -1,1 +1,91 @@
-<p>patient-info works!</p>
+<div class="patient-info-card" *ngIf="patient; else emptyState">
+  <mat-card class="premium-card">
+    <mat-card-header class="card-header-section">
+      <div class="patient-header-info">
+        <div class="patient-avatar">
+          <mat-icon>person</mat-icon>
+        </div>
+        <div class="patient-header-text">
+          <h1 class="patient-name">{{ patient.fullName }}</h1>
+          <p class="patient-id">ID: {{ patient.id }}</p>
+        </div>
+      </div>
+    </mat-card-header>
+
+    <mat-card-title class="card-title">Patient Details</mat-card-title>
+
+    <mat-card-content class="card-body">
+      <div class="info-grid">
+        <div class="info">
+          <label>Name</label>
+          <span>{{ patient.fullName }}</span>
+        </div>
+
+        <div class="info">
+          <label>DOB</label>
+          <span>{{ patient.dob | date: "mediumDate" }}</span>
+        </div>
+
+        <div class="info">
+          <label>Gender</label>
+          <span>{{ patient.gender }}</span>
+        </div>
+
+        <div class="info">
+          <label>Blood Group</label>
+          <span class="chip">{{ patient.bloodGroup }}</span>
+        </div>
+
+        <div class="info">
+          <label>Phone</label>
+          <span>{{ patient.phone }}</span>
+        </div>
+
+        <div class="info">
+          <label>Email</label>
+          <span>{{ patient.email }}</span>
+        </div>
+
+        <div class="info full">
+          <label>Address</label>
+          <span>{{ patient.address }}</span>
+        </div>
+
+        <div class="info">
+          <label>Registered</label>
+          <span>{{ patient.registeredAt | date: "medium" }}</span>
+        </div>
+
+        <div class="info">
+          <label>Insurance</label>
+          <span class="chip outline">{{ patient.insuranceType }}</span>
+        </div>
+
+        <div class="info full">
+          <label>Emergency Contact</label>
+          <span>{{ patient.emergencyContact }}</span>
+        </div>
+
+        <div class="info full">
+          <label>Medical History</label>
+
+          <ng-container *ngIf="patient.medicalHistory.length; else noHistory">
+            <div class="history">
+              <span *ngFor="let item of patient.medicalHistory">
+                {{ item }}
+              </span>
+            </div>
+          </ng-container>
+
+          <ng-template #noHistory>
+            <span class="muted">No medical history</span>
+          </ng-template>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<ng-template #emptyState>
+  <p class="empty">No patient selected.</p>
+</ng-template>

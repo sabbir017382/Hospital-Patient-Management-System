@@ -1,5 +1,9 @@
 <app-navbar *ngIf="showNavbar"></app-navbar>
-<div class="app-shell" *ngIf="showNavbar">
+<div
+  class="app-shell"
+  [class.sidebar-closed]="!isSidebarOpen"
+  *ngIf="showNavbar"
+>
   <app-sidebar></app-sidebar>
   <main class="content" [class.sidebar-closed]="!isSidebarOpen">
     <router-outlet></router-outlet>

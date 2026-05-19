@@ -1,0 +1,63 @@
+.dashboard-home-shell {
+  display: grid;
+  gap: 24px;
+}
+
+.dashboard-header h1 {
+  margin: 0 0 4px;
+}
+
+.dashboard-header p {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.64);
+}
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.dashboard-card {
+  padding: 20px;
+  min-height: 140px;
+}
+
+.card-label {
+  font-size: 0.92rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.card-value {
+  margin-top: 12px;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.dashboard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.recent-appointments {
+  background: #fff;
+  padding: 18px;
+  border-radius: 12px;
+}
+
+.recent-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.recent-table th,
+.recent-table td {
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.recent-table th {
+  font-weight: 600;
+}

@@ -1,5 +1,9 @@
-<div>
-  <mat-form-field appearance="outline">
+<div class="top-bar">
+  <!-- Search Label -->
+  <label class="section-label">Search</label>
+
+  <!-- Search Field -->
+  <mat-form-field appearance="outline" class="search-field">
     <mat-label>Search Patient</mat-label>
     <input
       matInput
@@ -7,7 +11,12 @@
       placeholder="Name, phone or blood group"
     />
   </mat-form-field>
-  <mat-form-field>
+
+  <!-- Filter Label -->
+  <label class="section-label">Filters</label>
+
+  <!-- Filters -->
+  <mat-form-field appearance="outline" class="filter-field">
     <mat-label>Gender</mat-label>
     <mat-select (selectionChange)="genderFilter = $event.value; applyFilters()">
       <mat-option value="">All</mat-option>
@@ -15,7 +24,8 @@
       <mat-option value="Female">Female</mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+
+  <mat-form-field appearance="outline" class="filter-field">
     <mat-label>Insurance</mat-label>
     <mat-select
       (selectionChange)="insuranceFilter = $event.value; applyFilters()"
@@ -28,7 +38,7 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field appearance="outline" class="filter-field">
     <mat-label>Blood Group</mat-label>
     <mat-select
       (selectionChange)="bloodGroupFilter = $event.value; applyFilters()"
@@ -45,7 +55,6 @@
     </mat-select>
   </mat-form-field>
 </div>
-
 <div class="patient-list-container">
   <h2>Patient List</h2>
   <button
@@ -72,6 +81,11 @@
 
   <ng-container *ngIf="patients$ | async as patients">
     <div *ngIf="patients.length; else emptyState">
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        [pageSize]="10"
+        showFirstLastButtons
+      ></mat-paginator>
       <table
         mat-table
         [dataSource]="dataSource"
@@ -130,13 +144,13 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="actions">
+        <ng-container matColumnDef="actions" class="actionButton">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let patient">
             <button
               mat-button
               color="primary"
-              (click)="viewPatient(patient.id)"
+              [routerLink]="['/patients', patient.id]"
             >
               View
             </button>
@@ -145,13 +159,13 @@
               Edit
             </button>
 
-            <!-- <button
+            <button
               mat-button
-              color="warn"
-              (click)="bookAppointment(patient.id)" 
+              color="primary"
+              (click)="openAppointmentModal(patient)"
             >
-              Book Appointment
-            </button> -->
+              Book App..
+            </button>
 
             <button mat-button color="warn" (click)="deletePatient(patient.id)">
               Delete
@@ -166,47 +180,6 @@
 
     <ng-template #emptyState>
       <p>No patients added yet. Use the patient form to add new patients.</p>
-    </ng-template>
-  </ng-container>
-</div>
-
-<!--doctor table -->
-<div class="patient-list-container">
-  <h2>Doctor List</h2>
-
-  <ng-container *ngIf="doctors$ | async as doctors">
-    <div *ngIf="doctors.length; else emptyState">
-      <table mat-table [dataSource]="doctors" class="mat-elevation-z8">
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef>ID</th>
-          <td mat-cell *matCellDef="let doctor">{{ doctor.id }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>Name</th>
-          <td mat-cell *matCellDef="let doctor">{{ doctor.name }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="specialty">
-          <th mat-header-cell *matHeaderCellDef>Specialty</th>
-          <td mat-cell *matCellDef="let doctor">{{ doctor.specialty }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="availability">
-          <th mat-header-cell *matHeaderCellDef>Availability</th>
-          <td mat-cell *matCellDef="let doctor">{{ doctor.availability }}</td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumnForDoctors"></tr>
-        <tr
-          mat-row
-          *matRowDef="let row; columns: displayedColumnForDoctors"
-        ></tr>
-      </table>
-    </div>
-
-    <ng-template #emptyState>
-      <p>No doctors added yet.</p>
     </ng-template>
   </ng-container>
 </div>

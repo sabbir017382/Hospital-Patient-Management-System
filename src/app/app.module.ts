@@ -8,7 +8,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { PatientCardComponent } from './shared/patient-card/patient-card.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
-import { FeaturesModule } from './features/features.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +22,6 @@ import { FeaturesModule } from './features/features.module';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     MaterialModule,
-    FeaturesModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

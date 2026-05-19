@@ -1,0 +1,40 @@
+<div class="dashboard-home-shell">
+  <div class="dashboard-header">
+    <h1>Dashboard</h1>
+    <p>Quick overview of patients, appointments, and analytics.</p>
+  </div>
+
+  <div class="dashboard-cards">
+    <mat-card class="dashboard-card">
+      <div class="card-label">Total Patients</div>
+      <div class="card-value">{{ totalPatients }}</div>
+    </mat-card>
+    <mat-card class="dashboard-card">
+      <div class="card-label">Total Appointments</div>
+      <div class="card-value">{{ totalAppointments }}</div>
+    </mat-card>
+    <mat-card class="dashboard-card">
+      <div class="card-label">Upcoming Appointments</div>
+      <div class="card-value">{{ upcomingAppointments }}</div>
+    </mat-card>
+    <mat-card class="dashboard-card">
+      <div class="card-label">Completion Rate</div>
+      <div class="card-value">{{ completionRate }}%</div>
+    </mat-card>
+  </div>
+
+  <div class="dashboard-actions">
+    <button mat-raised-button color="primary" routerLink="/patients">
+      Manage Patients
+    </button>
+    <button mat-raised-button color="accent" routerLink="/patients/new">
+      Add New Patient
+    </button>
+    <button mat-raised-button color="warn" routerLink="/analytics">
+      View Analytics
+    </button>
+    <button mat-raised-button color="primary" (click)="openDoctorsDialog()">
+      Available Doctors
+    </button>
+  </div>
+</div>

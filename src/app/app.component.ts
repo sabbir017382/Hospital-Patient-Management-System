@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { SidebarService } from './core/service/sidebar.service';
+import { SidebarService } from 'src/app/core/service/sidebar.service';
 import { filter } from 'rxjs';
 
 @Component({
@@ -23,7 +23,7 @@ export class AppComponent {
         const currentPath = this.router.url.split('?')[0].split('#')[0];
         this.showNavbar = currentPath !== '/login';
       });
-    this.sidebarService.isOpen$.subscribe((value) => {
+    this.sidebarService.isOpen$.subscribe((value: boolean) => {
       this.isSidebarOpen = value;
     });
   }
