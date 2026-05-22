@@ -70,7 +70,7 @@ export class PatientFormComponent implements OnInit {
             this.medicalTags = Array.isArray(patient.medicalHistory)
               ? patient.medicalHistory
               : [];
-            // ensure form control reflects loaded tags
+
             if (this.form && this.form.get('medicalHistory')) {
               this.form.get('medicalHistory')?.setValue(this.medicalTags);
             }

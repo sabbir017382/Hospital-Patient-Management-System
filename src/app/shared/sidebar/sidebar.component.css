@@ -1,6 +1,6 @@
 .sidebar {
   width: 260px;
-  background:#0F172A;
+  background: #0e1630;
   color: #f8fafc;
   transition: transform 0.25s ease;
   transform: translateX(0);
@@ -61,6 +61,32 @@
 
 .sidebar-list mat-icon {
   color: #93c5fd;
+}
+
+.sidebar-parent {
+  justify-content: space-between;
+}
+
+.expand-icon {
+  font-size: 20px;
+}
+
+.sidebar-submenu {
+  list-style: none;
+  padding: 0 0 0 16px;
+  margin: 0 0 8px 0;
+}
+
+.sidebar-submenu li {
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.sidebar-submenu li:hover,
+.sidebar-submenu li.active {
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .close-btn {

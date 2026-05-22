@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { PatientService } from 'src/app/core/service/patient.service';
+import { DoctorService } from 'src/app/core/service/doctor.service';
 import { Patient } from 'src/app/core/models/patient';
 import { Appointment } from 'src/app/core/models/appoinment';
 import { MatSort } from '@angular/material/sort';
@@ -32,15 +33,16 @@ export class PatientListComponent implements OnInit, AfterViewInit {
     'insuranceType',
     'actions',
   ];
-  displayedColumnForDoctors: string[] = [
-    'id',
-    'name',
-    'specialty',
-    'availability',
-  ];
+  // displayedColumnForDoctors: string[] = [
+  //   'id',
+  //   'name',
+  //   'specialty',
+  //   'availability',
+  // ];
 
   constructor(
     private patientService: PatientService,
+    private doctorService: DoctorService,
     private router: Router,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -52,7 +54,7 @@ export class PatientListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.patients$ = this.patientService.getPatients();
-    this.doctors$ = this.patientService.getDoctors();
+    this.doctors$ = this.doctorService.getDoctors();
 
     this.patients$.subscribe((data) => {
       this.allPatients = data;
@@ -77,7 +79,7 @@ export class PatientListComponent implements OnInit, AfterViewInit {
         p.bloodGroup.toLowerCase().includes(value),
     );
     this.dataSource.data = this.filteredPatients; // dataSource updated
-    this.dataSource.sort = this.sort; //for sort
+    // this.dataSource.sort = this.sort; //for sort
   }
   //Filter
   genderFilter: string = '';
@@ -137,11 +139,9 @@ export class PatientListComponent implements OnInit, AfterViewInit {
     const remaining = this.dataSource.data.filter(
       (p) => !selectedIds.includes(p.id),
     );
-
     this.allPatients = this.allPatients.filter(
       (p) => !selectedIds.includes(p.id),
     );
-
     this.dataSource.data = remaining;
     this.selection.clear();
   }
@@ -164,7 +164,7 @@ export class PatientListComponent implements OnInit, AfterViewInit {
       this.exportSelectedToCSV();
     }
   }
-
+  /////CSV export logic
   private downloadCSV(patients: Patient[], fileName: string) {
     const headers = [
       'ID',
@@ -233,13 +233,12 @@ export class PatientListComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  ///////Multi select and delete close///////
 
   //open appointment modal
   openAppointmentModal(patient?: any, appointment?: any) {
     const dialogRef = this.dialog.open(AppointmentModalComponent, {
       width: '520px',
-      data: { patient, appointment }, // edit mode support
+      data: { patient, appointment },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

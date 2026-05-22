@@ -29,5 +29,22 @@
       <mat-icon>analytics</mat-icon>
       <span>Analytics Dashboard</span>
     </li>
+    <li class="sidebar-parent" (click)="toggleDoctorMenu()">
+      <mat-icon>medical_services</mat-icon>
+      <span>Doctor</span>
+      <mat-icon class="expand-icon">
+        {{ doctorMenuOpen ? "expand_less" : "expand_more" }}
+      </mat-icon>
+    </li>
+    <ul class="sidebar-submenu" *ngIf="doctorMenuOpen">
+      <li routerLink="/create-doctor" routerLinkActive="active">
+        <mat-icon>add</mat-icon>
+        <span>Add Doctor</span>
+      </li>
+      <li routerLink="/doctors" routerLinkActive="active">
+        <mat-icon>list</mat-icon>
+        <span>Doctor List</span>
+      </li>
+    </ul>
   </ul>
 </nav>

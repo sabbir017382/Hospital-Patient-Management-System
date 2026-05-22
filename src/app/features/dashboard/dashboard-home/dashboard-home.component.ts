@@ -3,6 +3,7 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Appointment } from 'src/app/core/models/appoinment';
 import { Patient } from 'src/app/core/models/patient';
 import { PatientService } from 'src/app/core/service/patient.service';
+import { DoctorService } from 'src/app/core/service/doctor.service';
 
 interface Doctor {
   id: string;
@@ -27,6 +28,7 @@ export class DashboardHomeComponent implements OnInit {
 
   constructor(
     private patientService: PatientService,
+    private doctorService: DoctorService,
     private dialog: MatDialog,
   ) {}
 
@@ -53,7 +55,7 @@ export class DashboardHomeComponent implements OnInit {
         .slice(0, 5);
     });
 
-    this.patientService.getDoctors().subscribe((doctors) => {
+    this.doctorService.getDoctors().subscribe((doctors) => {
       this.doctors = doctors;
     });
   }

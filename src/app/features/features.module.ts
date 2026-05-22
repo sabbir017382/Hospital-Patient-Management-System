@@ -20,6 +20,9 @@ import {
   DashboardHomeComponent,
   DoctorsDialogComponent,
 } from './dashboard/dashboard-home/dashboard-home.component';
+import { CreateDoctorComponent } from './doctor/create-doctor/create-doctor.component';
+import { DoctorListComponent } from './doctor/doctor-list/doctor-list.component';
+import { DoctorCardDetailsComponent } from './doctor/doctor-card-details/doctor-card-details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -43,6 +46,9 @@ const routes: Routes = [
     redirectTo: 'patients/:id/edit',
     pathMatch: 'full',
   },
+  { path: 'doctors/:id', component: DoctorCardDetailsComponent },
+  { path: 'doctors', component: DoctorListComponent },
+  { path: 'create-doctor', component: CreateDoctorComponent },
   { path: 'appointment-booking', redirectTo: 'patients', pathMatch: 'full' },
 ];
 
@@ -60,6 +66,9 @@ const routes: Routes = [
     AnalyticsDashboardComponent,
     DashboardHomeComponent,
     DoctorsDialogComponent,
+    CreateDoctorComponent,
+    DoctorListComponent,
+    DoctorCardDetailsComponent,
   ],
   imports: [
     CommonModule,

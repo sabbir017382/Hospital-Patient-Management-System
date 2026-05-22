@@ -1,0 +1,84 @@
+<div class="doctor-list-page">
+  <div class="doctor-list-hero">
+    <div class="hero-background"></div>
+
+    <div>
+      <div class="hero-text">
+        <h1>Find the right doctor fast</h1>
+      </div>
+
+      <div class="search-card">
+        <div class="search-panel">
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-icon matPrefix>search</mat-icon>
+            <input
+              matInput
+              [(ngModel)]="searchName"
+              (ngModelChange)="filterDoctors()"
+              placeholder="Search doctor name..."
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-icon matPrefix>medical_services</mat-icon>
+            <input
+              matInput
+              [(ngModel)]="searchSpecialty"
+              (ngModelChange)="filterDoctors()"
+              placeholder="Specialty (e.g. Cardiology)"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="doctor-list-grid">
+    <div class="doctor-card" *ngFor="let doctor of filteredDoctors">
+      <div class="doctor-card-summary">
+        <div class="doctor-image">
+          <img
+            [src]="doctor.imageUrl || defaultDoctorImage"
+            alt="{{ doctor.doctorName || doctor.name }}"
+          />
+        </div>
+        <div class="doctor-summary-text">
+          <h2>{{ doctor.doctorName || doctor.name }}</h2>
+          <p class="specialty">{{ doctor.specialty || "General" }}</p>
+          <p class="branch">
+            {{ doctor.branchName || doctor.departmentName || "No branch info" }}
+          </p>
+        </div>
+        <div class="doctor-summary-actions">
+          <button
+            mat-button
+            color="warn"
+            class="delete-action"
+            (click)="deleteDoctor(doctor)"
+          >
+            <mat-icon>delete_outline</mat-icon>
+            Delete
+          </button>
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="openProfile(doctor)"
+          >
+            View Profile
+          </button>
+          <button
+            mat-flat-button
+            color="accent"
+            (click)="openAppointmentModal(doctor)"
+          >
+            Book Appointment
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="filteredDoctors.length === 0">
+      No doctors found. Try a different search.
+    </div>
+  </div>
+</div>

@@ -51,7 +51,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.routeSub?.unsubscribe();
   }
-
+  //Appoinemt count refresh logic to update the count when a new appointment is booked or deleted
   refreshAppointmentCount() {
     if (!this.patient) {
       this.appointmentCount = 0;
@@ -65,7 +65,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
   onAppointmentBooked() {
     this.refreshAppointmentCount();
   }
-
+  ///edit patient and navigate to edit page with patient
   editPatient() {
     if (!this.patient) {
       return;

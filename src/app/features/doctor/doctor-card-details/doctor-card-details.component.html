@@ -1,0 +1,62 @@
+<div class="doctor-detail-page" *ngIf="doctor; else missingDoctor">
+  <div class="doctor-detail-hero">
+    <div class="doctor-detail-image">
+      <img
+        [src]="doctor.imageUrl || defaultDoctorImage"
+        alt="{{ doctor.doctorName || doctor.name }}"
+      />
+    </div>
+    <div class="doctor-detail-summary">
+      <h1>{{ doctor.doctorName || doctor.name }}</h1>
+      <p class="doctor-role">
+        {{ doctor.specialty || "General Practitioner" }}
+      </p>
+      <p class="doctor-meta">ID: {{ doctor.id || doctor.doctorId }}</p>
+      <div class="doctor-actions">
+        <button mat-flat-button color="primary" (click)="goBack()">
+          ← Back to doctors
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="doctor-detail-grid">
+    <section class="doctor-info-card">
+      <h2>Doctor Information</h2>
+      <p><strong>Qualification:</strong> {{ doctor.qualification || "N/A" }}</p>
+      <p><strong>Designation:</strong> {{ doctor.designation || "N/A" }}</p>
+      <p><strong>Institute:</strong> {{ doctor.institute || "N/A" }}</p>
+      <p><strong>Department:</strong> {{ doctor.departmentName || "N/A" }}</p>
+      <p><strong>Branch:</strong> {{ doctor.branchName || "N/A" }}</p>
+      <p><strong>Address:</strong> {{ doctor.branchAddress || "N/A" }}</p>
+    </section>
+
+    <section class="doctor-contact-card">
+      <h2>Availability</h2>
+      <p>
+        <strong>Chamber Time:</strong> {{ doctor.chamberTime.start || "—" }} —
+        {{ doctor.chamberTime.end || "—" }}
+      </p>
+      <p>
+        <strong>Available Days:</strong>
+        {{ doctor.availableDays.join(", ") || "N/A" }}
+      </p>
+      <p><strong>Off Days:</strong> {{ doctor.OffDays.join(", ") || "N/A" }}</p>
+      <p><strong>Phone:</strong> {{ doctor.phone || "N/A" }}</p>
+      <p><strong>Email:</strong> {{ doctor.email || "N/A" }}</p>
+      <p>
+        <strong>Consultation Fee:</strong> {{ doctor.consultationFee || 0 }} BDT
+      </p>
+    </section>
+  </div>
+</div>
+
+<ng-template #missingDoctor>
+  <div class="doctor-missing">
+    <h2>Doctor not found</h2>
+    <p>The requested doctor profile could not be loaded.</p>
+    <button mat-stroked-button color="primary" (click)="goBack()">
+      Back to doctor list
+    </button>
+  </div>
+</ng-template>

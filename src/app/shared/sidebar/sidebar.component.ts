@@ -8,11 +8,16 @@ import { SidebarService } from '../../core/service/sidebar.service';
 })
 export class SidebarComponent {
   isOpen = true;
+  doctorMenuOpen = false;
 
   constructor(public sidebarService: SidebarService) {
     this.sidebarService.isOpen$.subscribe((value: boolean) => {
       this.isOpen = value;
     });
+  }
+
+  toggleDoctorMenu() {
+    this.doctorMenuOpen = !this.doctorMenuOpen;
   }
 
   closeSidebar() {

@@ -402,46 +402,4 @@ export class PatientService {
       );
     });
   }
-  private doctors$ = new BehaviorSubject<Doctor[]>([
-    {
-      id: 'D001',
-      name: 'Dr. Farhan Ahmed',
-      specialty: 'Cardiology',
-      availability: 'Mon, Wed, Fri — 9AM–1PM',
-    },
-    {
-      id: 'D002',
-      name: 'Dr. Nusrat Jahan',
-      specialty: 'Neurology',
-      availability: 'Tue, Thu — 10AM–5PM',
-    },
-    {
-      id: 'D003',
-      name: 'Dr. Karim Chowdhury',
-      specialty: 'Orthopedics',
-      availability: 'Mon–Fri — 8AM–12PM',
-    },
-    {
-      id: 'D004',
-      name: 'Dr. Anika Islam',
-      specialty: 'Pediatrics',
-      availability: 'Mon, Tue, Thu — 2PM–6PM',
-    },
-    {
-      id: 'D005',
-      name: 'Dr. Rafiq Hassan',
-      specialty: 'General Medicine',
-      availability: 'Daily — 9AM–5PM',
-    },
-    {
-      id: 'D006',
-      name: 'Dr. Sumaiya Begum',
-      specialty: 'Dermatology',
-      availability: 'Wed, Fri — 11AM–4PM',
-    },
-  ]);
-
-  getDoctors() {
-    return this.doctors$.asObservable();
-  }
 }

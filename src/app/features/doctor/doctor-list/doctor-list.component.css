@@ -1,0 +1,283 @@
+.doctor-list-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 16px;
+}
+
+.doctor-list-hero {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  min-height: 120px;
+}
+
+.hero-background {
+  position: absolute;
+  inset: 0;
+  background: white;
+  opacity: 0.95;
+}
+
+.hero-text h1 {
+  text-align: center;
+  font-size: 1.25rem;
+  letter-spacing: -0.04em;
+}
+
+.hero-text p {
+  margin: 0;
+  max-width: 700px;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.5;
+}
+
+.doctor-list-hero {
+  position: relative;
+  padding: 80px 20px 120px;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Background Gradient */
+.hero-background {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #16324b, #2d5153);
+  opacity: 0.15;
+  z-index: 0;
+}
+
+/* Content */
+.doctor-list-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: auto;
+}
+
+.hero-text h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.hero-text p {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+/* Glass Search Card */
+.search-card {
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Panel layout */
+.search-panel {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Field Style */
+.search-field {
+  flex: 1;
+  min-width: 250px;
+}
+
+/* Angular Material Override */
+::ng-deep .mat-mdc-form-field {
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-text-field-wrapper {
+  border-radius: 12px !important;
+}
+
+/* Input focus effect */
+::ng-deep .mdc-text-field--focused {
+  box-shadow: 0 0 0 2px rgba(79, 172, 254, 0.2);
+}
+
+/* Icon color */
+::ng-deep mat-icon {
+  color: #4facfe;
+}
+
+/* Hover effect */
+.search-card:hover {
+  transform: translateY(-2px);
+  transition: 0.3s ease;
+}
+
+@media (max-width: 860px) {
+  .search-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+.search-field {
+  flex: 1 1 280px;
+}
+
+.doctor-list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 20px;
+}
+
+.doctor-card {
+  position: relative;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 18px;
+  background: #ffffff;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.delete-action {
+  justify-self: start;
+  color: #b91c1c;
+  text-transform: none;
+}
+
+.delete-action mat-icon {
+  margin-right: 6px;
+}
+
+.doctor-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+}
+
+.doctor-card-summary {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 16px;
+  align-items: center;
+}
+
+.doctor-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.doctor-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.doctor-summary-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+
+.doctor-summary-text h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.doctor-summary-text .specialty,
+.doctor-summary-text .branch {
+  margin: 0;
+  color: #5a6175;
+}
+
+.doctor-summary-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+
+.doctor-summary-actions button {
+  min-width: 140px;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #6b7280;
+  padding: 32px 0;
+}
+
+.doctor-profile-dialog {
+  padding: 0;
+}
+
+.profile-card {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 24px;
+  align-items: stretch;
+  min-height: 280px;
+}
+
+.profile-card-image {
+  border-radius: 22px;
+  overflow: hidden;
+  min-height: 260px;
+  background: #f3f4f6;
+}
+
+.profile-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-card-content h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.profile-title {
+  margin: 0;
+  color: #4f46e5;
+  font-weight: 600;
+}
+
+.profile-card-content p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+@media (max-width: 860px) {
+  .doctor-card-summary,
+  .profile-card {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-card-image {
+    min-height: 220px;
+  }
+}

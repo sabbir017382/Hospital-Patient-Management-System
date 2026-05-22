@@ -10,18 +10,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Appointment } from 'src/app/core/models/appoinment';
 import { Patient } from 'src/app/core/models/patient';
+import { Doctor } from 'src/app/core/models/doctor';
 import { PatientService } from 'src/app/core/service/patient.service';
-
-interface Doctor {
-  id: string;
-  name: string;
-  specialty: string;
-  availability: string;
-}
+import { DoctorService } from 'src/app/core/service/doctor.service';
 
 interface AppointmentDialogData {
   patient?: Patient;
   appointment?: Appointment;
+  doctorId?: string;
 }
 
 @Component({
@@ -44,6 +40,7 @@ export class AppointmentModalComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private patientService: PatientService,
+    private doctorService: DoctorService,
     private snackBar: MatSnackBar,
     private router: Router,
     @Optional() private dialogRef: MatDialogRef<AppointmentModalComponent>,
@@ -68,7 +65,7 @@ export class AppointmentModalComponent implements OnInit {
       },
     );
 
-    this.patientService.getDoctors().subscribe((doctors: Doctor[]) => {
+    this.doctorService.getDoctors().subscribe((doctors: Doctor[]) => {
       this.doctors = doctors;
       this.filteredDoctors = doctors;
     });
@@ -86,6 +83,10 @@ export class AppointmentModalComponent implements OnInit {
       this.patient = this.data.patient;
       this.form.patchValue({ patientId: this.data.patient.id });
       this.form.get('patientId')?.disable();
+    }
+
+    if (this.data?.doctorId) {
+      this.form.patchValue({ doctorId: this.data.doctorId });
     }
 
     if (this.data?.appointment) {
@@ -239,26 +240,40 @@ export class AppointmentModalComponent implements OnInit {
       return true;
     }
 
-    const availabilityPart = doctor.availability.split('—')[0].trim();
     const selectedDay = this.getDayShortName(appointmentDate);
+    const availableDays = (doctor.availableDays || [])
+      .map((day) => this.normalizeDay(day))
+      .filter(Boolean) as string[];
 
-    if (/daily/i.test(availabilityPart)) {
+    if (availableDays.length) {
+      return availableDays.includes(selectedDay);
+    }
+
+    if (/daily/i.test(doctor.availability)) {
       return true;
     }
 
+    const availabilityPart = doctor.availability.split('—')[0].trim();
     const parts = availabilityPart
       .split(',')
       .map((part) => part.trim())
       .filter(Boolean);
 
     for (const part of parts) {
-      const rangeMatch = part.match(/^([A-Za-z]{3})\s*[–-]\s*([A-Za-z]{3})$/);
+      const normalized = this.normalizeDay(part);
+      if (normalized === selectedDay) {
+        return true;
+      }
+
+      const rangeMatch = part.match(
+        /^([A-Za-z]{3,9})\s*[–-]\s*([A-Za-z]{3,9})$/,
+      );
       if (rangeMatch) {
-        const start = rangeMatch[1];
-        const end = rangeMatch[2];
+        const start = this.normalizeDay(rangeMatch[1]);
+        const end = this.normalizeDay(rangeMatch[2]);
         const order = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        const startIndex = order.indexOf(start);
-        const endIndex = order.indexOf(end);
+        const startIndex = start ? order.indexOf(start) : -1;
+        const endIndex = end ? order.indexOf(end) : -1;
         const selectedIndex = order.indexOf(selectedDay);
         if (startIndex >= 0 && endIndex >= 0 && selectedIndex >= 0) {
           if (startIndex <= endIndex) {
@@ -272,13 +287,23 @@ export class AppointmentModalComponent implements OnInit {
           }
         }
       }
-
-      if (part === selectedDay) {
-        return true;
-      }
     }
 
     return false;
+  }
+
+  private normalizeDay(day: string): string | null {
+    const normalized = day.trim().substring(0, 3).toLowerCase();
+    const map: Record<string, string> = {
+      sun: 'Sun',
+      mon: 'Mon',
+      tue: 'Tue',
+      wed: 'Wed',
+      thu: 'Thu',
+      fri: 'Fri',
+      sat: 'Sat',
+    };
+    return map[normalized] || null;
   }
 
   updateWarning() {

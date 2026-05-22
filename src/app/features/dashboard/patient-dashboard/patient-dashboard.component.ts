@@ -15,16 +15,16 @@ export class PatientDashboardComponent {
     private router: Router,
   ) {}
 
-  openBooking() {
-    const dialogRef = this.dialog.open(AppointmentModalComponent, {
-      width: '560px',
-      data: {},
-    });
+  // openBooking() {
+  //   const dialogRef = this.dialog.open(AppointmentModalComponent, {
+  //     width: '560px',
+  //     data: {},
+  //   });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.router.navigate(['/patients']);
-      }
-    });
-  }
+  //   dialogRef.afterClosed().subscribe((result) => {
+  //     if (result) {
+  //       this.router.navigate(['/patients']);
+  //     }
+  //   });
+  // }
 }

@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
 import { Appointment } from 'src/app/core/models/appoinment';
 import { Patient } from 'src/app/core/models/patient';
 import { PatientService } from 'src/app/core/service/patient.service';
+import { DoctorService } from 'src/app/core/service/doctor.service';
 
 Chart.register(...registerables);
 
@@ -141,7 +142,10 @@ export class AnalyticsDashboardComponent
 
   private subscriptions: Subscription[] = [];
 
-  constructor(private patientService: PatientService) {}
+  constructor(
+    private patientService: PatientService,
+    private doctorService: DoctorService,
+  ) {}
 
   ngOnInit(): void {
     this.subscriptions.push(
@@ -175,7 +179,7 @@ export class AnalyticsDashboardComponent
     );
 
     this.subscriptions.push(
-      this.patientService.getDoctors().subscribe((doctors) => {
+      this.doctorService.getDoctors().subscribe((doctors) => {
         this.doctorsMap = {};
         doctors.forEach((doctor) => {
           this.doctorsMap[doctor.id] = doctor.name;
