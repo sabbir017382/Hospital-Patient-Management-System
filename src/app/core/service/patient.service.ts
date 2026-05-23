@@ -21,6 +21,7 @@ export class PatientService {
   }
 
   login(email: string, password: string): boolean {
+    // Admin credentials
     if (email === 'admin@grade.com' && password === 'admin123') {
       const user = {
         email,
@@ -31,6 +32,51 @@ export class PatientService {
       localStorage.setItem('currentUser', JSON.stringify(user));
       return true;
     }
+
+    // Hardcoded doctor credentials
+    const doctors: Array<{
+      email: string;
+      password: string;
+      id: string;
+      name: string;
+      specialty: string;
+      imageUrl?: string;
+    }> = [
+      {
+        email: 'kasim@gmail.com',
+        password: 'kasim123',
+        id: 'DR01',
+        name: 'Dr. Kashem Rabbi',
+        specialty: 'General Medicine',
+        imageUrl: '',
+      },
+      {
+        email: 'hasim@gmail.com',
+        password: 'kasim123',
+        id: 'DR02',
+        name: 'Dr. Hasim Rabbi',
+        specialty: 'Cardiology',
+        imageUrl: '',
+      },
+    ];
+
+    const match = doctors.find(
+      (d) => d.email === email && d.password === password,
+    );
+    if (match) {
+      const user = {
+        email: match.email,
+        role: 'doctor',
+        doctorId: match.id,
+        name: match.name,
+        specialty: match.specialty,
+        imageUrl: match.imageUrl || '',
+        token: 'fake-doctor-token',
+      };
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      return true;
+    }
+
     return false;
   }
 
@@ -56,6 +102,10 @@ export class PatientService {
     return this.getAppointmentsSnapshot().filter(
       (appt) => appt.doctorId === doctorId,
     );
+  }
+
+  getAppointmentById(id: string): Appointment | undefined {
+    return this.getAppointmentsSnapshot().find((appt) => appt.id === id);
   }
 
   addAppointment(

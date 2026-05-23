@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { Doctor } from 'src/app/core/models/doctor';
 import { DoctorService } from 'src/app/core/service/doctor.service';
+import { AppointmentModalComponent } from 'src/app/features/Appointment/appointment-modal/appointment-modal.component';
 
 @Component({
   selector: 'app-doctor-card-details',
@@ -19,7 +21,21 @@ export class DoctorCardDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private doctorService: DoctorService,
+    private dialog: MatDialog,
   ) {}
+
+  openAppointmentModal() {
+    if (!this.doctor?.id && !this.doctor?.doctorId) {
+      return;
+    }
+
+    this.dialog.open(AppointmentModalComponent, {
+      width: '520px',
+      data: {
+        doctorId: this.doctor.id || this.doctor.doctorId,
+      },
+    });
+  }
 
   ngOnInit() {
     this.subscription = this.route.paramMap.subscribe((params) => {

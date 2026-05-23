@@ -317,22 +317,23 @@ export class AppointmentModalComponent implements OnInit {
       return;
     }
 
-    const doctorAppointments =
-      this.patientService.getAppointmentsByDoctor(doctorId);
-    const conflict = doctorAppointments.some(
-      (appt) =>
-        appt.status !== 'Cancelled' &&
-        this.sameDay(new Date(appt.appointmentDate), appointmentDate),
-    );
-
     if (!this.doctorAvailableOn(doctorId, appointmentDate)) {
       this.warningMessage =
         'This doctor is not available on the selected day. Please choose another date or doctor.';
       return;
     }
 
-    this.warningMessage = conflict
-      ? 'This doctor already has an appointment on the chosen date.'
+    // Check for EXACT TIME conflict (same day and same time)
+    const doctorAppointments =
+      this.patientService.getAppointmentsByDoctor(doctorId);
+    const timeConflict = doctorAppointments.some(
+      (appt) =>
+        appt.status !== 'Cancelled' &&
+        new Date(appt.appointmentDate).getTime() === appointmentDate.getTime(),
+    );
+
+    this.warningMessage = timeConflict
+      ? 'This doctor already has an appointment at this exact time. Please choose a different time.'
       : '';
   }
 
@@ -381,6 +382,24 @@ export class AppointmentModalComponent implements OnInit {
     if (!this.doctorAvailableOn(doctorId, appointmentDate)) {
       this.snackBar.open(
         'Selected doctor is not available on that day. Please choose a different date or doctor.',
+        'OK',
+        { duration: 3000 },
+      );
+      return;
+    }
+
+    // Check for exact time conflict before saving
+    const doctorAppointments =
+      this.patientService.getAppointmentsByDoctor(doctorId);
+    const timeConflict = doctorAppointments.some(
+      (appt) =>
+        appt.status !== 'Cancelled' &&
+        new Date(appt.appointmentDate).getTime() === appointmentDate.getTime(),
+    );
+
+    if (timeConflict) {
+      this.snackBar.open(
+        'This doctor already has an appointment at this exact time. Please choose a different time.',
         'OK',
         { duration: 3000 },
       );

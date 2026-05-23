@@ -16,6 +16,13 @@
         <button mat-flat-button color="primary" (click)="goBack()">
           ← Back to doctors
         </button>
+        <button
+          mat-stroked-button
+          color="accent"
+          (click)="openAppointmentModal()"
+        >
+          Book Appointment
+        </button>
       </div>
     </div>
   </div>
@@ -28,6 +35,8 @@
       <p><strong>Institute:</strong> {{ doctor.institute || "N/A" }}</p>
       <p><strong>Department:</strong> {{ doctor.departmentName || "N/A" }}</p>
       <p><strong>Branch:</strong> {{ doctor.branchName || "N/A" }}</p>
+      <p><strong>Floor:</strong> {{ doctor.floorNumber || "N/A" }}</p>
+      <p><strong>Room Number:</strong> {{ doctor.roomNumber || "N/A" }}</p>
       <p><strong>Address:</strong> {{ doctor.branchAddress || "N/A" }}</p>
     </section>
 

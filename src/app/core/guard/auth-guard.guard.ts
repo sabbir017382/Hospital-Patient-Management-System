@@ -28,16 +28,17 @@ export class AuthGuardGuard implements CanActivate, CanActivateChild {
     | boolean
     | UrlTree {
     const currentUser = this.patientService.getCurrentUser();
+    const selectedDoctor = localStorage.getItem('selectedDoctor');
     const requiresGuest = route.data?.['requiresGuest'] === true;
 
     if (requiresGuest) {
-      if (currentUser) {
+      if (currentUser || selectedDoctor) {
         return this.router.createUrlTree(['/dashboard']);
       }
       return true;
     }
 
-    if (currentUser) {
+    if (currentUser || selectedDoctor) {
       return true;
     }
 

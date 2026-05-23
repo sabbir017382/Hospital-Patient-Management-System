@@ -21,7 +21,11 @@ export class DoctorService {
     );
   }
 
-  createDoctor(doctor: Doctor) {
+  createDoctor(doctor: Doctor): boolean {
+    if (this.doctorExists(doctor)) {
+      return false;
+    }
+
     const newDoctor = this.normalizeDoctor({
       ...doctor,
       doctorId: this.generateDoctorId(),
@@ -29,6 +33,20 @@ export class DoctorService {
     const updatedDoctors = [...this.doctors$.value, newDoctor];
     this.doctors$.next(updatedDoctors);
     this.saveDoctors(updatedDoctors);
+    return true;
+  }
+
+  doctorExists(doctor: Partial<Doctor>): boolean {
+    const name = doctor.doctorName?.trim().toLowerCase();
+    const email = doctor.email?.trim().toLowerCase();
+
+    return this.doctors$.value.some((existing) => {
+      const existingName = existing.doctorName?.trim().toLowerCase();
+      const existingEmail = existing.email?.trim().toLowerCase();
+      return (
+        (name && existingName === name) || (email && existingEmail === email)
+      );
+    });
   }
 
   deleteDoctor(id: string) {

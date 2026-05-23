@@ -1,7 +1,26 @@
 <nav class="sidebar" [class.closed]="!isOpen">
   <div class="sidebar-header">
     <div>
-      <p class="sidebar-subtitle">Admin panel</p>
+      <p class="sidebar-subtitle">
+        {{
+          currentUser?.role === "doctor"
+            ? currentUser?.name || "Doctor"
+            : "Admin panel"
+        }}
+      </p>
+      <div *ngIf="currentUser?.role === 'doctor'" class="doctor-header">
+        <img
+          [src]="
+            currentUser?.imageUrl ||
+            'https://via.placeholder.com/48x48.png?text=Dr'
+          "
+          alt="Doctor"
+        />
+        <div class="doctor-meta">
+          <div class="doctor-name">{{ currentUser?.name }}</div>
+          <div class="doctor-id">{{ currentUser?.doctorId }}</div>
+        </div>
+      </div>
     </div>
     <button mat-icon-button class="close-btn" (click)="closeSidebar()">
       <mat-icon>chevron_left</mat-icon>
@@ -37,6 +56,14 @@
       </mat-icon>
     </li>
     <ul class="sidebar-submenu" *ngIf="doctorMenuOpen">
+      <li routerLink="/doctor-dashboard" routerLinkActive="active">
+        <mat-icon>Dashboard</mat-icon>
+        <span>Doctor Dashboard</span>
+      </li>
+      <li routerLink="/create-prescription" routerLinkActive="active">
+        <mat-icon>prescriptions</mat-icon>
+        <span>Create Prescription</span>
+      </li>
       <li routerLink="/create-doctor" routerLinkActive="active">
         <mat-icon>add</mat-icon>
         <span>Add Doctor</span>

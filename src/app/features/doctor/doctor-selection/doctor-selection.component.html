@@ -1,0 +1,49 @@
+<div class="doctor-selection">
+  <div class="header">
+    <h1>Select a Doctor</h1>
+    <p>Choose a doctor to view their dashboard and appointments</p>
+  </div>
+  <div class="doctors-grid">
+    <mat-card *ngFor="let doctor of doctors" class="doctor-card">
+      <div class="doctor-image">
+        <img
+          [src]="doctor.imageUrl"
+          [alt]="doctor.doctorName"
+          onerror="this.src = 'assets/default-doctor.png'"
+        />
+      </div>
+      <mat-card-title>{{ doctor.doctorName || doctor.name }}</mat-card-title>
+      <mat-card-subtitle>{{ doctor.specialty }}</mat-card-subtitle>
+      <mat-card-content>
+        <p><strong>ID:</strong> {{ doctor.doctorId || doctor.id }}</p>
+        <p>
+          <strong>Qualification:</strong> {{ doctor.qualification || "N/A" }}
+        </p>
+        <p><strong>Department:</strong> {{ doctor.departmentName || "N/A" }}</p>
+        <p *ngIf="doctor.chamberTime.start && doctor.chamberTime.end">
+          <strong>Chamber:</strong> {{ doctor.chamberTime.start }} —
+          {{ doctor.chamberTime.end }}
+        </p>
+        <p *ngIf="doctor.roomNumber">
+          <strong>Room:</strong> {{ doctor.floorNumber || "N/A" }} -
+          {{ doctor.roomNumber }}
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button
+          mat-flat-button
+          color="primary"
+          [routerLink]="['/doctor-dashboard', doctor.doctorId || doctor.id]"
+          (click)="selectDoctor(doctor)"
+        >
+          <mat-icon>Doctor Dashboard</mat-icon>
+          Enter Doctor Dashboard
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <div *ngIf="!doctors.length" class="empty-state">
+    <mat-icon>person_off</mat-icon>
+    <p>No doctors available at the moment.</p>
+  </div>
+</div>

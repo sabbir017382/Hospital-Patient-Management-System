@@ -1,0 +1,261 @@
+<div class="prescription-shell">
+  <div class="header-row">
+    <div>
+      <h1>
+        {{ viewMode ? "Prescription Preview" : "Create Prescription" }}
+      </h1>
+      <p class="subtitle">
+        {{
+          appointment
+            ? "Appointment: " + appointment.id
+            : "Create a prescription for the selected patient."
+        }}
+      </p>
+    </div>
+    <div class="action-group">
+      <button mat-stroked-button color="primary" (click)="onBack()">
+        Back
+      </button>
+      <button
+        mat-flat-button
+        color="accent"
+        *ngIf="!viewMode"
+        (click)="generatePrescription()"
+      >
+        Generate Prescription
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        *ngIf="prescriptionSaved"
+        (click)="viewPrescriptionPreview()"
+      >
+        View Prescription
+      </button>
+    </div>
+  </div>
+
+  <div
+    *ngIf="
+      viewMode && appointment?.prescription as prescription;
+      else prescriptionFormTemplate
+    "
+  >
+    <mat-card class="preview-card">
+      <mat-card-title>Prescription Preview</mat-card-title>
+      <mat-card-content>
+        <div class="preview-row">
+          <div>
+            <p>
+              <strong>Doctor:</strong>
+              {{ prescription.doctorName }}
+            </p>
+            <p>
+              <strong>Specialty:</strong>
+              {{ prescription.doctorSpecialty }}
+            </p>
+          </div>
+          <div>
+            <p>
+              <strong>Patient:</strong>
+              {{ prescription.patientName }}
+            </p>
+            <p>
+              <strong>Phone:</strong>
+              {{ prescription.patientPhone }}
+            </p>
+          </div>
+        </div>
+        <div class="preview-row">
+          <p>
+            <strong>Date:</strong>
+            {{ prescription.appointmentDate }}
+          </p>
+          <p>
+            <strong>Time:</strong>
+            {{ prescription.appointmentTime }}
+          </p>
+        </div>
+        <div class="preview-block">
+          <h3>Problem</h3>
+          <p>{{ prescription.problems }}</p>
+        </div>
+        <div class="preview-block">
+          <h3>Medical History</h3>
+          <p>{{ prescription.medicalHistory }}</p>
+        </div>
+        <div class="preview-block">
+          <h3>Tests</h3>
+          <p>{{ prescription.tests || "None" }}</p>
+        </div>
+        <div class="preview-block">
+          <h3>Medicines</h3>
+          <table class="preview-table">
+            <thead>
+              <tr>
+                <th>Medicine</th>
+                <th>Morning</th>
+                <th>Noon</th>
+                <th>Night</th>
+                <th>Duration</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let med of prescription.medications">
+                <td>{{ med.name }}</td>
+                <td>{{ med.morning ? "✔" : "-" }}</td>
+                <td>{{ med.noon ? "✔" : "-" }}</td>
+                <td>{{ med.night ? "✔" : "-" }}</td>
+                <td>{{ med.duration }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="preview-block">
+          <h3>Notes</h3>
+          <p>{{ prescription.notes || "None" }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <ng-template #prescriptionFormTemplate>
+    <form [formGroup]="prescriptionForm" class="prescription-form">
+      <mat-card class="doctors-card">
+        <div class="info-grid">
+          <div>
+            <h3>Doctor Information</h3>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Doctor Name</mat-label>
+              <input matInput formControlName="doctorName" readonly />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Specialty</mat-label>
+              <input matInput formControlName="doctorSpecialty" readonly />
+            </mat-form-field>
+          </div>
+
+          <div>
+            <h3>Patient Information</h3>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Patient Name</mat-label>
+              <input matInput formControlName="patientName" readonly />
+            </mat-form-field>
+            <div class="two-column-row">
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Age</mat-label>
+                <input matInput formControlName="patientAge" readonly />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Gender</mat-label>
+                <input matInput formControlName="patientGender" readonly />
+              </mat-form-field>
+            </div>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Phone</mat-label>
+              <input matInput formControlName="patientPhone" readonly />
+            </mat-form-field>
+          </div>
+
+          <div>
+            <h3>Appointment</h3>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Date</mat-label>
+              <input matInput formControlName="appointmentDate" readonly />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Time</mat-label>
+              <input matInput formControlName="appointmentTime" readonly />
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card>
+
+      <div class="form-columns">
+        <mat-card class="left-panel">
+          <div class="section-header">
+            <h2>Medical History</h2>
+          </div>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Medical History</mat-label>
+            <textarea
+              matInput
+              formControlName="medicalHistory"
+              rows="4"
+            ></textarea>
+          </mat-form-field>
+
+          <div class="section-header">
+            <h2>Problem</h2>
+          </div>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Current Problem</mat-label>
+            <textarea matInput formControlName="problems" rows="4"></textarea>
+          </mat-form-field>
+
+          <div class="section-header">
+            <h2>Tests</h2>
+          </div>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Investigations / Tests</mat-label>
+            <textarea matInput formControlName="tests" rows="4"></textarea>
+          </mat-form-field>
+        </mat-card>
+
+        <mat-card class="right-panel">
+          <div class="section-header">
+            <h2>Medicines</h2>
+          </div>
+          <div formArrayName="medications">
+            <div
+              class="medicine-item"
+              *ngFor="let medicine of medications.controls; let i = index"
+              [formGroupName]="i"
+            >
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Medicine {{ i + 1 }}</mat-label>
+                <input matInput formControlName="name" />
+              </mat-form-field>
+
+              <div class="medicine-grid">
+                <mat-checkbox formControlName="morning">Morning</mat-checkbox>
+                <mat-checkbox formControlName="noon">Noon</mat-checkbox>
+                <mat-checkbox formControlName="night">Night</mat-checkbox>
+              </div>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Duration (days)</mat-label>
+                <input matInput formControlName="duration" />
+              </mat-form-field>
+
+              <button
+                mat-icon-button
+                color="warn"
+                type="button"
+                (click)="removeMedicine(i)"
+                [disabled]="medications.length === 1"
+              >
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <button
+            mat-icon-button
+            color="primary"
+            type="button"
+            (click)="addMedicine()"
+          >
+            <mat-icon>add_circle</mat-icon>
+          </button>
+          <span class="add-text">Add another medicine</span>
+
+          <mat-form-field appearance="outline" class="full-width notes-field">
+            <mat-label>Prescription Notes</mat-label>
+            <textarea matInput formControlName="notes" rows="4"></textarea>
+          </mat-form-field>
+        </mat-card>
+      </div>
+    </form>
+  </ng-template>
+</div>

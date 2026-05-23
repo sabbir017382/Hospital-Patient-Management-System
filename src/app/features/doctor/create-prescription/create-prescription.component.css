@@ -1,0 +1,143 @@
+.prescription-shell {
+  margin: 24px;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.header-row h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.action-group {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.prescription-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.doctors-card,
+.preview-card {
+  padding: 24px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.two-column-row {
+  display: flex;
+  gap: 12px;
+}
+
+.half-width {
+  width: 100%;
+}
+
+.form-columns {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 20px;
+}
+
+.left-panel,
+.right-panel {
+  padding: 24px;
+  min-height: 420px;
+}
+
+.section-header {
+  margin-bottom: 12px;
+}
+
+.medicine-item {
+  border: 1px solid #e0e0e0;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.medicine-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+button[mat-icon-button] {
+  margin-top: 8px;
+}
+
+.add-text {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.notes-field {
+  margin-top: 20px;
+}
+
+.preview-row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.preview-block {
+  margin-bottom: 16px;
+}
+
+.preview-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.preview-table th,
+.preview-table td {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 10px;
+}
+
+.preview-table th {
+  background: #f7f7f7;
+}
+
+@media (max-width: 1000px) {
+  .info-grid,
+  .form-columns,
+  .preview-row {
+    grid-template-columns: 1fr;
+    display: block;
+  }
+
+  .two-column-row {
+    flex-direction: column;
+  }
+}

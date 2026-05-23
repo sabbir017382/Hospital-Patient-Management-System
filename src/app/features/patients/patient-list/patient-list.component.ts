@@ -257,13 +257,17 @@ export class PatientListComponent implements OnInit, AfterViewInit {
   editPatient(id: string) {
     this.router.navigate(['/patients', id, 'edit']);
   }
-
+  //for single delete
   deletePatient(id: string) {
-    if (confirm('Are you sure you want to delete this patient?')) {
-      this.patientService.deletePatients([id]);
-    }
+    const dialogRef = this.dialog.open(DeleteConfirmDialog);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.patientService.deletePatients([id]);
+      }
+    });
   }
 }
+
 ////for reuse delete confirmation dialog written here//////
 @Component({
   selector: 'delete-confirm-dialog',

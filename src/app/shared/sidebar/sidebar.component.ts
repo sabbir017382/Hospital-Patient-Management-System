@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SidebarService } from '../../core/service/sidebar.service';
+import { PatientService } from '../../core/service/patient.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,10 +11,17 @@ export class SidebarComponent {
   isOpen = true;
   doctorMenuOpen = false;
 
-  constructor(public sidebarService: SidebarService) {
+  constructor(
+    public sidebarService: SidebarService,
+    private patientService: PatientService,
+  ) {
     this.sidebarService.isOpen$.subscribe((value: boolean) => {
       this.isOpen = value;
     });
+  }
+
+  get currentUser() {
+    return this.patientService.getCurrentUser();
   }
 
   toggleDoctorMenu() {

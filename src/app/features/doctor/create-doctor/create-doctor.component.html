@@ -1,19 +1,10 @@
 <div class="create-doctor-page">
-  <div class="page-header">
-    <div>
-      <h1>Add Doctor</h1>
-      <p>
-        Use this form to add a new doctor profile with hospital details and
-        availability.
-      </p>
-    </div>
-    <div class="page-tag">Doctor Management</div>
-  </div>
+  <h1>Add Doctor</h1>
 
   <form
     #doctorForm="ngForm"
-    class="doctor-form"
     (ngSubmit)="onSubmit(doctorForm)"
+    class="doctor-form"
   >
     <div class="form-grid">
       <mat-form-field appearance="outline">
@@ -23,21 +14,6 @@
           name="doctorName"
           required
           [(ngModel)]="doctor.doctorName"
-          #doctorName="ngModel"
-          placeholder="Dr. John Doe"
-        />
-        <mat-error *ngIf="doctorName.invalid && doctorName.touched">
-          Doctor name is required.
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Specialty</mat-label>
-        <input
-          matInput
-          name="specialty"
-          [(ngModel)]="doctor.specialty"
-          placeholder="Cardiology"
         />
       </mat-form-field>
 
@@ -47,65 +23,42 @@
           matInput
           name="qualification"
           [(ngModel)]="doctor.qualification"
-          placeholder="MBBS, MD"
         />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Specialty</mat-label>
+        <input matInput name="specialty" [(ngModel)]="doctor.specialty" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
-        <input
-          matInput
-          name="email"
-          type="email"
-          [(ngModel)]="doctor.email"
-          #email="ngModel"
-          placeholder="doctor@email.com"
-        />
-        <mat-error *ngIf="email.invalid && email.touched">
-          Please enter a valid email address.
-        </mat-error>
+        <input matInput name="email" [(ngModel)]="doctor.email" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Phone</mat-label>
-        <input
-          matInput
-          name="phone"
-          [(ngModel)]="doctor.phone"
-          placeholder="01234567890"
-        />
+        <input matInput name="phone" [(ngModel)]="doctor.phone" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Consultation Fee</mat-label>
         <input
           matInput
-          name="consultationFee"
           type="number"
-          min="0"
+          name="consultationFee"
           [(ngModel)]="doctor.consultationFee"
-          placeholder="300"
         />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Designation</mat-label>
-        <input
-          matInput
-          name="designation"
-          [(ngModel)]="doctor.designation"
-          placeholder="Senior Consultant"
-        />
+        <input matInput name="designation" [(ngModel)]="doctor.designation" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Institute</mat-label>
-        <input
-          matInput
-          name="institute"
-          [(ngModel)]="doctor.institute"
-          placeholder="City Hospital"
-        />
+        <input matInput name="institute" [(ngModel)]="doctor.institute" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
@@ -114,27 +67,26 @@
           matInput
           name="departmentName"
           [(ngModel)]="doctor.departmentName"
-          placeholder="Heart Center"
         />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Branch Name</mat-label>
-        <input
-          matInput
-          name="branchName"
-          [(ngModel)]="doctor.branchName"
-          placeholder="Main Branch"
-        />
+        <input matInput name="branchName" [(ngModel)]="doctor.branchName" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Floor Number</mat-label>
+        <input matInput name="floorNumber" [(ngModel)]="doctor.floorNumber" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Room Number</mat-label>
         <input
           matInput
-          name="floorNumber"
-          [(ngModel)]="doctor.floorNumber"
-          placeholder="3rd Floor"
+          type="number"
+          name="roomNumber"
+          [(ngModel)]="doctor.roomNumber"
         />
       </mat-form-field>
 
@@ -144,78 +96,59 @@
           matInput
           name="branchAddress"
           [(ngModel)]="doctor.branchAddress"
-          placeholder="123 Medical Street"
         />
       </mat-form-field>
 
+      <!-- ✅ Image Upload (simple & fast) -->
       <mat-form-field appearance="outline">
-        <mat-label>Room Number</mat-label>
-        <input
-          matInput
-          type="number"
-          min="0"
-          name="roomNumber"
-          [(ngModel)]="doctor.roomNumber"
-          placeholder="101"
-        />
-      </mat-form-field>
+        <mat-label>Doctor Image</mat-label>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Image URL / Upload</mat-label>
         <input
           matInput
-          name="imageUrl"
-          [(ngModel)]="doctor.imageUrl"
-          placeholder="Paste image URL or upload path"
+          readonly
+          [value]="uploadedFileName"
+          placeholder="Click to upload"
+          (click)="fileInput.click()"
         />
+
         <button
-          mat-icon-button
+          mat-button
           matSuffix
           type="button"
-          (click)="imageFileInput.click()"
-          aria-label="Upload doctor image"
+          class="upload-badge"
+          (click)="fileInput.click()"
         >
-          <mat-icon>upload</mat-icon>
+          <mat-icon>{{ imageUploaded ? "check" : "cloud_upload" }}</mat-icon>
+          {{ imageUploaded ? "Uploaded" : "Upload" }}
         </button>
+
         <input
-          #imageFileInput
+          #fileInput
           type="file"
-          accept="image/*"
           hidden
+          accept="image/*"
           (change)="onFileSelected($event)"
         />
-        <mat-hint>Upload an image file or paste an image URL.</mat-hint>
       </mat-form-field>
     </div>
 
-    <div class="section-divider">
-      <span>Availability</span>
-    </div>
-
-    <div class="form-grid availability-grid">
+    <!-- Availability -->
+    <div class="form-grid">
       <mat-form-field appearance="outline">
         <mat-label>Chamber Start</mat-label>
-        <mat-select
-          name="chamberStart"
-          [(ngModel)]="doctor.chamberTime.start"
-          required
-        >
-          <mat-option *ngFor="let slot of timeSlots" [value]="slot">
-            {{ slot }}
-          </mat-option>
+        <mat-select name="start" [(ngModel)]="doctor.chamberTime.start">
+          <mat-option *ngFor="let t of timeSlots" [value]="t">{{
+            t
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Chamber End</mat-label>
-        <mat-select
-          name="chamberEnd"
-          [(ngModel)]="doctor.chamberTime.end"
-          required
-        >
-          <mat-option *ngFor="let slot of timeSlots" [value]="slot">
-            {{ slot }}
-          </mat-option>
+        <mat-select name="end" [(ngModel)]="doctor.chamberTime.end">
+          <mat-option *ngFor="let t of timeSlots" [value]="t">{{
+            t
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -226,21 +159,19 @@
           [(ngModel)]="doctor.availableDays"
           multiple
         >
-          <mat-option *ngFor="let day of daysOfWeek" [value]="day">
-            {{ day }}
-          </mat-option>
+          <mat-option *ngFor="let d of daysOfWeek" [value]="d">{{
+            d
+          }}</mat-option>
         </mat-select>
-        <mat-hint>Select days doctor is available.</mat-hint>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Off Days</mat-label>
         <mat-select name="offDays" [(ngModel)]="doctor.OffDays" multiple>
-          <mat-option *ngFor="let day of daysOfWeek" [value]="day">
-            {{ day }}
-          </mat-option>
+          <mat-option *ngFor="let d of daysOfWeek" [value]="d">{{
+            d
+          }}</mat-option>
         </mat-select>
-        <mat-hint>Select the doctor's off days.</mat-hint>
       </mat-form-field>
     </div>
 
@@ -249,13 +180,18 @@
         mat-flat-button
         color="primary"
         type="submit"
-        [disabled]="doctorForm.invalid"
+        [disabled]="imageUploadLoading"
       >
         Add Doctor
       </button>
-      <button mat-button type="button" (click)="doctorForm.resetForm()">
+
+      <button mat-button type="button" (click)="onReset(doctorForm)">
         Reset
       </button>
+    </div>
+
+    <div class="error" *ngIf="duplicateErrorMessage">
+      {{ duplicateErrorMessage }}
     </div>
   </form>
 </div>

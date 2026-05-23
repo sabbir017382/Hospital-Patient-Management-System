@@ -1,5 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { Appointment } from 'src/app/core/models/appoinment';
 import { Patient } from 'src/app/core/models/patient';
 import { PatientService } from 'src/app/core/service/patient.service';
@@ -97,6 +102,15 @@ export class DashboardHomeComponent implements OnInit {
             <p><strong>ID:</strong> {{ doctor.id }}</p>
             <p><strong>Availability:</strong> {{ doctor.availability }}</p>
           </mat-card-content>
+          <mat-card-actions align="end">
+            <button
+              mat-stroked-button
+              color="primary"
+              (click)="viewProfile(doctor.id)"
+            >
+              View Profile
+            </button>
+          </mat-card-actions>
         </mat-card>
       </div>
     </mat-dialog-content>
@@ -120,5 +134,14 @@ export class DashboardHomeComponent implements OnInit {
   ],
 })
 export class DoctorsDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { doctors: Doctor[] }) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: { doctors: Doctor[] },
+    private router: Router,
+    private dialogRef: MatDialogRef<DoctorsDialogComponent>,
+  ) {}
+
+  viewProfile(doctorId: string) {
+    this.dialogRef.close();
+    this.router.navigate(['/doctors', doctorId]);
+  }
 }

@@ -5,8 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from '../shared/material/material.module';
 import { NgChartsModule } from 'ng2-charts';
 import { PatientFormComponent } from './patients/patient-form/patient-form.component';
-import { PatientDashboardComponent as DashboardPatientDashboardComponent } from './dashboard/patient-dashboard/patient-dashboard.component';
-import { PatientDashboardComponent as PatientsPatientDashboardComponent } from './patients/patient-dashboard/patient-dashboard.component';
+import { PatientDashboardComponent } from './patients/patient-dashboard/patient-dashboard.component';
 import { PatientInfoComponent } from './patients/patient-info/patient-info.component';
 import {
   PatientListComponent,
@@ -23,20 +22,17 @@ import {
 import { CreateDoctorComponent } from './doctor/create-doctor/create-doctor.component';
 import { DoctorListComponent } from './doctor/doctor-list/doctor-list.component';
 import { DoctorCardDetailsComponent } from './doctor/doctor-card-details/doctor-card-details.component';
+import { DoctorDashboardComponent } from './doctor/doctor-dashboard/doctor-dashboard.component';
+import { CreatePrescriptionComponent } from './doctor/create-prescription/create-prescription.component';
+import { DoctorSelectionComponent } from './doctor/doctor-selection/doctor-selection.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardHomeComponent },
   { path: 'patients', component: PatientListComponent },
   { path: 'patients/new', component: PatientFormComponent },
-  {
-    path: 'patients/:id',
-    component: PatientsPatientDashboardComponent,
-  },
-  {
-    path: 'patients/:id/edit',
-    component: PatientFormComponent,
-  },
+  { path: 'patients/:id', component: PatientDashboardComponent },
+  { path: 'patients/:id/edit', component: PatientFormComponent },
   { path: 'analytics', component: AnalyticsDashboardComponent },
   { path: 'patient-dashboard', redirectTo: 'patients', pathMatch: 'full' },
   { path: 'patient-list', redirectTo: 'patients', pathMatch: 'full' },
@@ -49,14 +45,18 @@ const routes: Routes = [
   { path: 'doctors/:id', component: DoctorCardDetailsComponent },
   { path: 'doctors', component: DoctorListComponent },
   { path: 'create-doctor', component: CreateDoctorComponent },
+  { path: 'create-prescription', component: CreatePrescriptionComponent },
+  { path: 'doctor-selection', component: DoctorSelectionComponent },
+  { path: 'doctor-dashboard/:id', component: DoctorDashboardComponent },
+  { path: 'doctor-dashboard', component: DoctorDashboardComponent },
+
   { path: 'appointment-booking', redirectTo: 'patients', pathMatch: 'full' },
 ];
 
 @NgModule({
   declarations: [
     PatientFormComponent,
-    DashboardPatientDashboardComponent,
-    PatientsPatientDashboardComponent,
+    PatientDashboardComponent,
     PatientInfoComponent,
     PatientListComponent,
     DeleteConfirmDialog,
@@ -69,6 +69,9 @@ const routes: Routes = [
     CreateDoctorComponent,
     DoctorListComponent,
     DoctorCardDetailsComponent,
+    DoctorDashboardComponent,
+    CreatePrescriptionComponent,
+    DoctorSelectionComponent,
   ],
   imports: [
     CommonModule,
