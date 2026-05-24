@@ -184,14 +184,14 @@ export class AppointmentModalComponent implements OnInit {
     const filter = (searchValue || '').toString().toLowerCase();
     this.filteredDoctors = this.doctors.filter(
       (doctor) =>
-        doctor.id.toLowerCase().includes(filter) ||
+        doctor.doctorId?.toLowerCase().includes(filter) ||
         doctor.name.toLowerCase().includes(filter) ||
         doctor.specialty.toLowerCase().includes(filter),
     );
   }
 
   displayDoctor(doctorId: string) {
-    const match = this.doctors.find((doctor) => doctor.id === doctorId);
+    const match = this.doctors.find((doctor) => doctor.doctorId === doctorId);
     return match ? `${match.name} (${match.specialty})` : '';
   }
 
@@ -235,7 +235,7 @@ export class AppointmentModalComponent implements OnInit {
   }
 
   private doctorAvailableOn(doctorId: string, appointmentDate: Date): boolean {
-    const doctor = this.doctors.find((doc) => doc.id === doctorId);
+    const doctor = this.doctors.find((doc) => doc.doctorId === doctorId);
     if (!doctor) {
       return true;
     }

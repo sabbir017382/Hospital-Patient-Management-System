@@ -35,7 +35,7 @@
       #auto="matAutocomplete"
       [displayWith]="displayDoctor.bind(this)"
     >
-      <mat-option *ngFor="let doc of filteredDoctors" [value]="doc.id">
+      <mat-option *ngFor="let doc of filteredDoctors" [value]="doc.doctorId">
         {{ doc.name }} — {{ doc.specialty }}
       </mat-option>
     </mat-autocomplete>

@@ -24,7 +24,7 @@ export class DoctorListComponent implements OnInit {
   ) {}
 
   deleteDoctor(doctor: Doctor) {
-    const doctorId = doctor.id || doctor.doctorId;
+    const doctorId = doctor.doctorId;
     if (!doctorId) {
       return;
     }
@@ -57,7 +57,7 @@ export class DoctorListComponent implements OnInit {
   openAppointmentModal(doctor: Doctor) {
     const dialogRef = this.dialog.open(AppointmentModalComponent, {
       width: '520px',
-      data: { doctorId: doctor.id || doctor.doctorId },
+      data: { doctorId: doctor.doctorId },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -68,7 +68,7 @@ export class DoctorListComponent implements OnInit {
   }
 
   openProfile(doctor: Doctor) {
-    const doctorId = doctor.id || doctor.doctorId;
+    const doctorId = doctor.doctorId;
     if (doctorId) {
       this.router.navigate(['/doctors', doctorId]);
     }

@@ -16,9 +16,7 @@ export class DoctorService {
   }
 
   getDoctorById(id: string) {
-    return this.doctors$.value.find(
-      (doctor) => doctor.id === id || doctor.doctorId === id,
-    );
+    return this.doctors$.value.find((doctor) => doctor.doctorId === id);
   }
 
   createDoctor(doctor: Doctor): boolean {
@@ -51,7 +49,7 @@ export class DoctorService {
 
   deleteDoctor(id: string) {
     const updatedDoctors = this.doctors$.value.filter(
-      (doctor) => doctor.id !== id && doctor.doctorId !== id,
+      (doctor) => doctor.doctorId !== id,
     );
     this.doctors$.next(updatedDoctors);
     this.saveDoctors(updatedDoctors);
@@ -59,7 +57,7 @@ export class DoctorService {
 
   private generateDoctorId(): string {
     const existingIds = this.doctors$.value.map(
-      (doctor) => doctor.doctorId || doctor.id || '',
+      (doctor) => doctor.doctorId || '',
     );
 
     const lastNumber = existingIds
@@ -87,7 +85,7 @@ export class DoctorService {
   }
 
   private normalizeDoctor(doctor: Doctor): Doctor {
-    const doctorId = doctor.doctorId || doctor.id || `D${Date.now()}`;
+    const doctorId = doctor.doctorId || `D${Date.now()}`;
     const doctorName = doctor.doctorName || doctor.name || '';
     const chamberStart = doctor.chamberTime?.start || '';
     const chamberEnd = doctor.chamberTime?.end || '';
@@ -95,7 +93,6 @@ export class DoctorService {
     return {
       ...doctor,
       doctorId,
-      id: doctorId,
       doctorName,
       name: doctorName,
       chamberTime: {

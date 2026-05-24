@@ -42,8 +42,7 @@ export class DoctorDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Try to get doctor from login (currentUser) first, then fallback to route param or selectedDoctor
-    this.currentUser = this.patientService.getCurrentUser();
+    // this.currentUser = this.patientService.getCurrentUser();
 
     const routeDoctorId = this.route.snapshot.paramMap.get('id');
     if (routeDoctorId) {

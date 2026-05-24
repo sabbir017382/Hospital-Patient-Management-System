@@ -25,6 +25,7 @@ import { DoctorCardDetailsComponent } from './doctor/doctor-card-details/doctor-
 import { DoctorDashboardComponent } from './doctor/doctor-dashboard/doctor-dashboard.component';
 import { CreatePrescriptionComponent } from './doctor/create-prescription/create-prescription.component';
 import { DoctorSelectionComponent } from './doctor/doctor-selection/doctor-selection.component';
+import { DocumentsUploadComponent } from './documents/documents-upload/documents-upload.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -72,6 +73,7 @@ const routes: Routes = [
     DoctorDashboardComponent,
     CreatePrescriptionComponent,
     DoctorSelectionComponent,
+    DocumentsUploadComponent,
   ],
   imports: [
     CommonModule,

@@ -15,7 +15,6 @@ export class DoctorCardDetailsComponent implements OnInit, OnDestroy {
   doctor?: Doctor;
   isNotFound = false;
   subscription?: Subscription;
-  defaultDoctorImage = 'https://via.placeholder.com/420x420.png?text=Doctor';
 
   constructor(
     private route: ActivatedRoute,
@@ -25,14 +24,14 @@ export class DoctorCardDetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   openAppointmentModal() {
-    if (!this.doctor?.id && !this.doctor?.doctorId) {
+    if (!this.doctor?.doctorId) {
       return;
     }
 
     this.dialog.open(AppointmentModalComponent, {
       width: '520px',
       data: {
-        doctorId: this.doctor.id || this.doctor.doctorId,
+        doctorId: this.doctor.doctorId,
       },
     });
   }

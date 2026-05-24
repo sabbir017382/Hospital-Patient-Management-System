@@ -37,7 +37,7 @@ export class DoctorSelectionComponent implements OnInit {
   //   }
 
   selectDoctor(doctor: Doctor) {
-    const doctorId = doctor.doctorId || doctor.id;
+    const doctorId = doctor.doctorId;
 
     if (!doctorId) {
       console.error('Doctor ID missing!');

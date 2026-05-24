@@ -2,7 +2,7 @@
   <div class="doctor-detail-hero">
     <div class="doctor-detail-image">
       <img
-        [src]="doctor.imageUrl || defaultDoctorImage"
+        [src]="doctor.imageUrl"
         alt="{{ doctor.doctorName || doctor.name }}"
       />
     </div>
@@ -11,7 +11,7 @@
       <p class="doctor-role">
         {{ doctor.specialty || "General Practitioner" }}
       </p>
-      <p class="doctor-meta">ID: {{ doctor.id || doctor.doctorId }}</p>
+      <p class="doctor-meta">ID: {{ doctor.doctorId }}</p>
       <div class="doctor-actions">
         <button mat-flat-button color="primary" (click)="goBack()">
           ← Back to doctors

@@ -182,7 +182,9 @@ export class AnalyticsDashboardComponent
       this.doctorService.getDoctors().subscribe((doctors) => {
         this.doctorsMap = {};
         doctors.forEach((doctor) => {
-          this.doctorsMap[doctor.id] = doctor.name;
+          if (doctor.doctorId) {
+            this.doctorsMap[doctor.doctorId] = doctor.name;
+          }
         });
       }),
     );

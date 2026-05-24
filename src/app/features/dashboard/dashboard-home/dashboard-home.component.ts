@@ -11,7 +11,7 @@ import { PatientService } from 'src/app/core/service/patient.service';
 import { DoctorService } from 'src/app/core/service/doctor.service';
 
 interface Doctor {
-  id: string;
+  doctorId?: string;
   name: string;
   specialty: string;
   availability: string;
@@ -99,14 +99,15 @@ export class DashboardHomeComponent implements OnInit {
             <mat-card-subtitle>{{ doctor.specialty }}</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <p><strong>ID:</strong> {{ doctor.id }}</p>
+            <p><strong>ID:</strong> {{ doctor.doctorId }}</p>
             <p><strong>Availability:</strong> {{ doctor.availability }}</p>
           </mat-card-content>
           <mat-card-actions align="end">
             <button
               mat-stroked-button
               color="primary"
-              (click)="viewProfile(doctor.id)"
+              [disabled]="!doctor.doctorId"
+              (click)="viewProfile(doctor.doctorId)"
             >
               View Profile
             </button>
@@ -140,7 +141,10 @@ export class DoctorsDialogComponent {
     private dialogRef: MatDialogRef<DoctorsDialogComponent>,
   ) {}
 
-  viewProfile(doctorId: string) {
+  viewProfile(doctorId: string | undefined) {
+    if (!doctorId) {
+      return;
+    }
     this.dialogRef.close();
     this.router.navigate(['/doctors', doctorId]);
   }

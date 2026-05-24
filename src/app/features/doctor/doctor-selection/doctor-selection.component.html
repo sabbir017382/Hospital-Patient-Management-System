@@ -15,7 +15,7 @@
       <mat-card-title>{{ doctor.doctorName || doctor.name }}</mat-card-title>
       <mat-card-subtitle>{{ doctor.specialty }}</mat-card-subtitle>
       <mat-card-content>
-        <p><strong>ID:</strong> {{ doctor.doctorId || doctor.id }}</p>
+        <p><strong>ID:</strong> {{ doctor.doctorId }}</p>
         <p>
           <strong>Qualification:</strong> {{ doctor.qualification || "N/A" }}
         </p>
@@ -33,7 +33,7 @@
         <button
           mat-flat-button
           color="primary"
-          [routerLink]="['/doctor-dashboard', doctor.doctorId || doctor.id]"
+          [routerLink]="['/doctor-dashboard', doctor.doctorId]"
           (click)="selectDoctor(doctor)"
         >
           <mat-icon>Doctor Dashboard</mat-icon>
