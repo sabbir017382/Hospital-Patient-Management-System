@@ -23,19 +23,6 @@ export class DoctorSelectionComponent implements OnInit {
     });
   }
 
-  //   selectDoctor(doctor: Doctor) {
-  //     const selectedDoctor = {
-  //       doctorId: doctor.doctorId || doctor.id,
-  //       name: doctor.doctorName || doctor.name,
-  //       specialty: doctor.specialty,
-  //       imageUrl: doctor.imageUrl || '',
-  //       role: 'doctor',
-  //       token: 'session-token',
-  //     };
-  //     localStorage.setItem('selectedDoctor', JSON.stringify(selectedDoctor));
-  //     this.router.navigate(['/doctor-dashboard', selectedDoctor.doctorId]);
-  //   }
-
   selectDoctor(doctor: Doctor) {
     const doctorId = doctor.doctorId;
 
@@ -46,7 +33,7 @@ export class DoctorSelectionComponent implements OnInit {
 
     const selectedDoctor = {
       doctorId,
-      name: doctor.doctorName || doctor.name,
+      name: doctor.doctorName,
       specialty: doctor.specialty,
       imageUrl: doctor.imageUrl || '',
       role: 'doctor',

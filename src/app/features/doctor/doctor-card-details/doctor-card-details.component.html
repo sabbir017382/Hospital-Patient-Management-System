@@ -1,13 +1,10 @@
 <div class="doctor-detail-page" *ngIf="doctor; else missingDoctor">
   <div class="doctor-detail-hero">
     <div class="doctor-detail-image">
-      <img
-        [src]="doctor.imageUrl"
-        alt="{{ doctor.doctorName || doctor.name }}"
-      />
+      <img [src]="doctor.imageUrl" alt="{{ doctor.doctorName }}" />
     </div>
     <div class="doctor-detail-summary">
-      <h1>{{ doctor.doctorName || doctor.name }}</h1>
+      <h1>{{ doctor.doctorName }}</h1>
       <p class="doctor-role">
         {{ doctor.specialty || "General Practitioner" }}
       </p>

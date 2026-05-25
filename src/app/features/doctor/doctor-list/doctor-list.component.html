@@ -30,18 +30,14 @@
       </div>
     </div>
   </div>
-
   <div class="doctor-list-grid">
     <div class="doctor-card" *ngFor="let doctor of filteredDoctors">
       <div class="doctor-card-summary">
         <div class="doctor-image">
-          <img
-            [src]="doctor.imageUrl || defaultDoctorImage"
-            alt="{{ doctor.doctorName || doctor.name }}"
-          />
+          <img [src]="doctor.imageUrl" alt="{{ doctor.doctorName }}" />
         </div>
         <div class="doctor-summary-text">
-          <h2>{{ doctor.doctorName || doctor.name }}</h2>
+          <h2>{{ doctor.doctorName }}</h2>
           <p class="specialty">{{ doctor.specialty || "General" }}</p>
           <p class="branch">
             {{ doctor.branchName || doctor.departmentName || "No branch info" }}

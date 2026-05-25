@@ -183,7 +183,7 @@ export class AnalyticsDashboardComponent
         this.doctorsMap = {};
         doctors.forEach((doctor) => {
           if (doctor.doctorId) {
-            this.doctorsMap[doctor.doctorId] = doctor.name;
+            this.doctorsMap[doctor.doctorId] = doctor.doctorName;
           }
         });
       }),

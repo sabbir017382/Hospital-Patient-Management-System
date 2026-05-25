@@ -23,7 +23,6 @@ const DEFAULT_DOCTOR: Doctor = {
   branchAddress: '',
   imageUrl: '',
   doctorId: undefined,
-  name: '',
   availability: '',
 };
 
@@ -100,7 +99,6 @@ export class CreateDoctorComponent {
     const newDoctor: Doctor = {
       ...this.doctor,
       doctorId: undefined,
-      name: this.doctor.doctorName,
       availability: this.getAvailability(),
     };
 

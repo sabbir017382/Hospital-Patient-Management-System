@@ -42,27 +42,18 @@ export class DoctorDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.currentUser = this.patientService.getCurrentUser();
-
-    const routeDoctorId = this.route.snapshot.paramMap.get('id');
+    const routeDoctorId = this.route.snapshot.paramMap.get('doctorId');
     if (routeDoctorId) {
       const doctorFromService = this.doctorService.getDoctorById(routeDoctorId);
       const selectedDoctor = {
         doctorId: routeDoctorId,
-        name:
-          doctorFromService?.doctorName ||
-          doctorFromService?.name ||
-          this.currentUser?.name ||
-          '',
-        specialty:
-          doctorFromService?.specialty || this.currentUser?.specialty || '',
-        imageUrl:
-          doctorFromService?.imageUrl || this.currentUser?.imageUrl || '',
+        name: doctorFromService?.doctorName || '',
+        specialty: doctorFromService?.specialty || '',
+        imageUrl: doctorFromService?.imageUrl || '',
         role: 'doctor',
       };
       this.currentUser = selectedDoctor;
       localStorage.setItem('selectedDoctor', JSON.stringify(selectedDoctor));
-      console.log('Loaded doctor from route:', selectedDoctor);
     }
 
     if (!this.currentUser?.doctorId) {
@@ -70,26 +61,15 @@ export class DoctorDashboardComponent implements OnInit {
       if (selectedDoctorRaw) {
         try {
           this.currentUser = JSON.parse(selectedDoctorRaw);
-          console.log('Loaded doctor from localStorage:', this.currentUser);
         } catch (e) {
-          console.error('Failed to parse selectedDoctor:', e);
           this.currentUser = null;
+          this.router.navigate(['/doctor-selection']);
         }
       }
     }
 
-    if (!this.currentUser?.doctorId) {
-      // No doctor selected, redirect to doctor selection
-      console.warn('No doctor ID found, redirecting to selection');
-      this.router.navigate(['/doctor-selection']);
-      return;
-    }
-
-    console.log('Doctor dashboard initialized for:', this.currentUser.name);
-
     this.upcomingWeekDays = this.generateWeekDays();
     this.selectedUpcomingDayIso = this.upcomingWeekDays[0]?.iso || '';
-
     this.patientService.getAppointments().subscribe((appointments) => {
       this.allAppointments = appointments || [];
       this.refreshDashboard();
@@ -97,7 +77,9 @@ export class DoctorDashboardComponent implements OnInit {
 
     this.patientService.getPatients().subscribe((patients) => {
       this.patientsMap = {};
-      patients.forEach((p: any) => (this.patientsMap[p.id] = p));
+      patients.forEach(
+        (patient: any) => (this.patientsMap[patient.id] = patient),
+      );
       this.refreshDashboard();
     });
   }
@@ -148,11 +130,11 @@ export class DoctorDashboardComponent implements OnInit {
 
     this.todaysAppointments = appointments
       .filter(
-        (a) =>
-          a.doctorId === this.currentUser.doctorId &&
-          new Date(a.appointmentDate) >= todayStart &&
-          new Date(a.appointmentDate) <= todayEnd &&
-          a.status === 'Scheduled',
+        (appointment) =>
+          appointment.doctorId === this.currentUser.doctorId &&
+          new Date(appointment.appointmentDate) >= todayStart &&
+          new Date(appointment.appointmentDate) <= todayEnd &&
+          appointment.status === 'Scheduled',
       )
       .sort(
         (x, y) =>
@@ -265,15 +247,6 @@ export class DoctorDashboardComponent implements OnInit {
     return date.toLocaleTimeString(undefined, {
       hour: '2-digit',
       minute: '2-digit',
-    });
-  }
-
-  private formatFriendlyDate(date: Date): string {
-    return date.toLocaleDateString(undefined, {
-      weekday: 'long',
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
     });
   }
 

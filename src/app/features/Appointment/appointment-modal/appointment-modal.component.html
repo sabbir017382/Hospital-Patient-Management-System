@@ -36,7 +36,7 @@
       [displayWith]="displayDoctor.bind(this)"
     >
       <mat-option *ngFor="let doc of filteredDoctors" [value]="doc.doctorId">
-        {{ doc.name }} — {{ doc.specialty }}
+        {{ doc.doctorName }} — {{ doc.specialty }}
       </mat-option>
     </mat-autocomplete>
     <mat-error *ngIf="form.get('doctorId')?.hasError('required')">

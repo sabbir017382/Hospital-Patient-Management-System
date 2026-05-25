@@ -12,7 +12,7 @@ import { DoctorService } from 'src/app/core/service/doctor.service';
 
 interface Doctor {
   doctorId?: string;
-  name: string;
+  doctorName: string;
   specialty: string;
   availability: string;
 }
@@ -95,7 +95,7 @@ export class DashboardHomeComponent implements OnInit {
       <div class="doctors-list">
         <mat-card class="doctor-card" *ngFor="let doctor of data.doctors">
           <mat-card-header>
-            <mat-card-title>{{ doctor.name }}</mat-card-title>
+            <mat-card-title>{{ doctor.doctorName }}</mat-card-title>
             <mat-card-subtitle>{{ doctor.specialty }}</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>

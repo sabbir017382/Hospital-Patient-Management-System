@@ -16,6 +16,7 @@
 
   <div class="quick-actions">
     <button
+      type="button"
       mat-flat-button
       color="primary"
       [class.active]="selectedSection === 'today'"
@@ -24,6 +25,7 @@
       Today's Appointments
     </button>
     <button
+      type="button"
       mat-stroked-button
       color="accent"
       [class.active]="selectedSection === 'upcoming'"
@@ -32,6 +34,7 @@
       Upcoming Appointments
     </button>
     <button
+      type="button"
       mat-stroked-button
       [class.active]="selectedSection === 'history'"
       (click)="selectSection('history')"
@@ -194,7 +197,9 @@
             <mat-card-title>{{ patient.patientName }}</mat-card-title>
             <mat-card-content>
               <p><strong>ID:</strong> {{ patient.patientId }}</p>
-              <p><strong>Appointments:</strong> {{ patient.appointmentCount }}</p>
+              <p>
+                <strong>Appointments:</strong> {{ patient.appointmentCount }}
+              </p>
               <p>
                 <strong>Last Visit:</strong>
                 {{ patient.lastVisit | date: "mediumDate" }}
@@ -212,7 +217,10 @@
       <div class="patient-detail-section" *ngIf="selectedPatientDetail">
         <!-- Patient Information Card -->
         <mat-card class="patient-info-card">
-          <mat-card-title>{{ selectedPatientDetail.patientName }} - Information</mat-card-title>
+          <mat-card-title
+            >{{ selectedPatientDetail.patientName }} -
+            Information</mat-card-title
+          >
           <mat-card-content>
             <div class="info-row">
               <strong>Patient ID:</strong>
@@ -224,25 +232,42 @@
             </div>
             <div class="info-row">
               <strong>Last Visit:</strong>
-              <span>{{ selectedPatientDetail.lastVisit | date: "mediumDate" }}</span>
+              <span>{{
+                selectedPatientDetail.lastVisit | date: "mediumDate"
+              }}</span>
             </div>
             <div class="info-row">
               <strong>Medical History:</strong>
-              <span>{{ selectedPatientDetail.medicalHistory.join(", ") || "N/A" }}</span>
+              <span>{{
+                selectedPatientDetail.medicalHistory.join(", ") || "N/A"
+              }}</span>
             </div>
           </mat-card-content>
         </mat-card>
 
         <!-- Appointments Card -->
         <mat-card class="appointments-card">
-          <mat-card-title>{{ selectedPatientDetail.patientName }} - Appointments</mat-card-title>
+          <mat-card-title
+            >{{ selectedPatientDetail.patientName }} -
+            Appointments</mat-card-title
+          >
           <mat-card-content>
             <!-- Future Appointments -->
-            <div class="appointments-section" *ngIf="getSortedAppointments(selectedPatientDetail.appointments).future.length > 0">
+            <div
+              class="appointments-section"
+              *ngIf="
+                getSortedAppointments(selectedPatientDetail.appointments).future
+                  .length > 0
+              "
+            >
               <h4 class="appointments-subtitle">Upcoming Appointments</h4>
               <div class="appointments-list">
                 <mat-card
-                  *ngFor="let appt of getSortedAppointments(selectedPatientDetail.appointments).future"
+                  *ngFor="
+                    let appt of getSortedAppointments(
+                      selectedPatientDetail.appointments
+                    ).future
+                  "
                   class="appointment-item"
                 >
                   <mat-card-content>
@@ -250,11 +275,11 @@
                       <strong>Date:</strong>
                       {{ appt.appointmentDateObj | date: "fullDate" }}
                     </p>
-                    <p>
-                      <strong>Time:</strong> {{ appt.appointmentTime }}
-                    </p>
+                    <p><strong>Time:</strong> {{ appt.appointmentTime }}</p>
                     <p><strong>Status:</strong> {{ appt.status }}</p>
-                    <p><strong>Notes:</strong> {{ appt.notes || "No notes" }}</p>
+                    <p>
+                      <strong>Notes:</strong> {{ appt.notes || "No notes" }}
+                    </p>
                     <p *ngIf="appt.followUpDate">
                       <strong>Follow-up:</strong>
                       {{ appt.followUpDate | date: "mediumDate" }}
@@ -275,11 +300,21 @@
             </div>
 
             <!-- Past Appointments -->
-            <div class="appointments-section" *ngIf="getSortedAppointments(selectedPatientDetail.appointments).past.length > 0">
+            <div
+              class="appointments-section"
+              *ngIf="
+                getSortedAppointments(selectedPatientDetail.appointments).past
+                  .length > 0
+              "
+            >
               <h4 class="appointments-subtitle">Past Appointments</h4>
               <div class="appointments-list">
                 <mat-card
-                  *ngFor="let appt of getSortedAppointments(selectedPatientDetail.appointments).past"
+                  *ngFor="
+                    let appt of getSortedAppointments(
+                      selectedPatientDetail.appointments
+                    ).past
+                  "
                   class="appointment-item"
                 >
                   <mat-card-content>
@@ -287,11 +322,11 @@
                       <strong>Date:</strong>
                       {{ appt.appointmentDateObj | date: "fullDate" }}
                     </p>
-                    <p>
-                      <strong>Time:</strong> {{ appt.appointmentTime }}
-                    </p>
+                    <p><strong>Time:</strong> {{ appt.appointmentTime }}</p>
                     <p><strong>Status:</strong> {{ appt.status }}</p>
-                    <p><strong>Notes:</strong> {{ appt.notes || "No notes" }}</p>
+                    <p>
+                      <strong>Notes:</strong> {{ appt.notes || "No notes" }}
+                    </p>
                     <p *ngIf="appt.followUpDate">
                       <strong>Follow-up:</strong>
                       {{ appt.followUpDate | date: "mediumDate" }}
@@ -312,7 +347,10 @@
             </div>
 
             <!-- Empty State -->
-            <p *ngIf="selectedPatientDetail.appointments.length === 0" class="empty-message">
+            <p
+              *ngIf="selectedPatientDetail.appointments.length === 0"
+              class="empty-message"
+            >
               No appointments found for this patient.
             </p>
           </mat-card-content>

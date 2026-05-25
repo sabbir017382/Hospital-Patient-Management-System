@@ -117,12 +117,12 @@ export class CreatePrescriptionComponent implements OnInit {
   private patchDoctorPatientData() {
     if (this.doctor) {
       this.prescriptionForm.patchValue({
-        doctorName: this.doctor.name,
+        doctorName: this.doctor.doctorName,
         doctorSpecialty: this.doctor.specialty,
       });
     } else if (this.currentUser) {
       this.prescriptionForm.patchValue({
-        doctorName: this.currentUser.name || '',
+        doctorName: this.currentUser.doctorName || '',
         doctorSpecialty: this.currentUser.specialty || '',
       });
     }

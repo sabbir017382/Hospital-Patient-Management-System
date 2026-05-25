@@ -172,11 +172,11 @@ export class AppointmentModalComponent implements OnInit {
 
   private generateTimeSlots(): string[] {
     const slots: string[] = [];
-    for (let hour = 8; hour <= 17; hour++) {
+    for (let hour = 8; hour <= 23; hour++) {
       slots.push(`${hour.toString().padStart(2, '0')}:00`);
       slots.push(`${hour.toString().padStart(2, '0')}:30`);
     }
-    slots.push('18:00');
+    slots.push('24:00');
     return slots;
   }
 
@@ -185,14 +185,14 @@ export class AppointmentModalComponent implements OnInit {
     this.filteredDoctors = this.doctors.filter(
       (doctor) =>
         doctor.doctorId?.toLowerCase().includes(filter) ||
-        doctor.name.toLowerCase().includes(filter) ||
+        doctor.doctorName.toLowerCase().includes(filter) ||
         doctor.specialty.toLowerCase().includes(filter),
     );
   }
 
   displayDoctor(doctorId: string) {
     const match = this.doctors.find((doctor) => doctor.doctorId === doctorId);
-    return match ? `${match.name} (${match.specialty})` : '';
+    return match ? `${match.doctorName} (${match.specialty})` : '';
   }
 
   filterPatients(searchValue: string) {
@@ -433,6 +433,7 @@ export class AppointmentModalComponent implements OnInit {
       status: 'Scheduled',
       followUpDate: null,
     });
+    localStorage.setItem('lastBookedAppointment', JSON.stringify(created));
     this.snackBar.open('Appointment booked', 'OK', {
       duration: 2000,
     });

@@ -24,10 +24,7 @@ export class DoctorService {
       return false;
     }
 
-    const newDoctor = this.normalizeDoctor({
-      ...doctor,
-      doctorId: this.generateDoctorId(),
-    });
+    const newDoctor = { ...doctor, doctorId: this.generateDoctorId() };
     const updatedDoctors = [...this.doctors$.value, newDoctor];
     this.doctors$.next(updatedDoctors);
     this.saveDoctors(updatedDoctors);
@@ -78,32 +75,10 @@ export class DoctorService {
     }
     try {
       const stored = JSON.parse(raw) as Doctor[];
-      return stored.map((doctor) => this.normalizeDoctor(doctor));
+      return stored;
     } catch {
       return [];
     }
-  }
-
-  private normalizeDoctor(doctor: Doctor): Doctor {
-    const doctorId = doctor.doctorId || `D${Date.now()}`;
-    const doctorName = doctor.doctorName || doctor.name || '';
-    const chamberStart = doctor.chamberTime?.start || '';
-    const chamberEnd = doctor.chamberTime?.end || '';
-
-    return {
-      ...doctor,
-      doctorId,
-      doctorName,
-      name: doctorName,
-      chamberTime: {
-        start: chamberStart,
-        end: chamberEnd,
-      },
-      availability:
-        chamberStart && chamberEnd
-          ? `${chamberStart} — ${chamberEnd}`
-          : doctor.availability || '',
-    };
   }
 
   private saveDoctors(doctors: Doctor[]) {
